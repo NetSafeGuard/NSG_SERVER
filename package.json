@@ -10,7 +10,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "dev": "npx tsc-watch --onSuccess \"node ./dist/index.js\"",
+    "dev": "npx tsc-watch --onSuccess \"node ./dist/src/index.js\"",
     "build": "tsc -p ."
   },
   "keywords": [],
