@@ -1,6 +1,7 @@
 import express from 'express';
-import { router } from '../router/user.route';
+import { authrouter } from '../router/authentication.route';
 import { Request, Response } from 'express';
+import bodyParser from 'body-parser';
 
 export class ExpressServer {
     private app: express.Application;
@@ -10,7 +11,8 @@ export class ExpressServer {
     }
 
     start() {
-        this.app.use('/api/v1/user', router);
+        this.app.use(bodyParser.json());
+        this.app.use('/api/v1/auth', authrouter);
 
         this.app.all("/*", this.notfound)
         
