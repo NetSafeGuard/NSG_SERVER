@@ -24,7 +24,11 @@ export class ExpressServer {
     notfound(req: Request, res: Response) {
         res.status(404).json({
             status: 404,
-            message: `Route [${req.method}] ${req.url} Not Found!]`
+            message: {
+                method: req.method,
+                path: req.path,
+                txt: "Not Found"
+            }
         })
     }
 }
