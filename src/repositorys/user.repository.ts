@@ -15,7 +15,7 @@ export const validateAccount = async (email: string, password: string) => {
         const isValidPassword = await bycrpt.compare(password, user.password);
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET ?? 'SCR_2023', { expiresIn: "1d" });
 
-        return isValidPassword ? resolve({user:{...user, password: undefined},token}) : reject({ status: 400, message: "Invalid password" });
+        return isValidPassword ? resolve({ user:{...user, password: undefined}, token }) : reject({ status: 400, message: "Invalid password" });
     })
 
 }
