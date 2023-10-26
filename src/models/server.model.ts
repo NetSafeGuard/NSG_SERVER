@@ -14,6 +14,14 @@ export class ExpressServer {
         this.app.use(bodyParser.json());
         this.app.use('/api/v1/auth', authrouter);
 
+        if(process.env.DEV) {
+            this.app.use((req, res, next) => {
+                console.log(`[${req.method}] - ${req.path} from ${req.ip} at ${new Date().toLocaleString()}`);
+                next();
+            });
+        }
+
+
         this.app.all("/*", this.notfound)
         
         this.app.listen(process.env.PORT, () => {
