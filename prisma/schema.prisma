@@ -23,6 +23,7 @@ model Event {
   code String
   redirectUrl String
   students Student[]
+  ended Boolean
 }
 
 model Student {
