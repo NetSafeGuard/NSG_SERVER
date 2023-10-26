@@ -3,6 +3,7 @@ import { authrouter } from '../router/authentication.route';
 import { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import { LogsMiddleware } from '../middleware/logs.middleware';
+import cors from 'cors';
 
 export class ExpressServer {
     private app: express.Application;
@@ -12,14 +13,19 @@ export class ExpressServer {
     }
 
     start() {
+        const corsOptions = {
+            origin: process.env.CLIENT_URL,
+            optionsSuccessStatus: 200
+        }
+
+        this.app.use(cors(corsOptions))
+
         this.app.use(bodyParser.json());
         this.app.use('/api/v1/auth', authrouter);
 
         if(process.env.DEV) {
             this.app.use(LogsMiddleware)
         }
-        
-
 
         this.app.all("/*", this.notfound)
         
