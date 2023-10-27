@@ -9,7 +9,6 @@ export const TokenMiddleware = (req: Request, res: Response, next: NextFunction)
             status: 400,
             message: "Missing Token"
         })
-
         jwt.verify(token, process.env.JWT_SECRET || "SCR_2023", (err, user) => {
             if (err) return res.status(403).json({
                 status: 403,

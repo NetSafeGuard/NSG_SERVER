@@ -8,3 +8,4 @@ import { TokenMiddleware } from "../middleware/token.middleware";
 export const authrouter = Router();
 
 authrouter.post('/login', [limiter, ValidateMiddleware(LoginSchema)], authenticationController.Login);
+authrouter.post('/verify', [TokenMiddleware], authenticationController.Verify);
