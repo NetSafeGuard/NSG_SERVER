@@ -7,4 +7,4 @@ import { TokenMiddleware } from "../middleware/token.middleware";
 
 export const authrouter = Router();
 
-authrouter.post('/login', [limiter, ValidateMiddleware(LoginSchema), TokenMiddleware], authenticationController.Login);
+authrouter.post('/login', [limiter, ValidateMiddleware(LoginSchema)], authenticationController.Login);
