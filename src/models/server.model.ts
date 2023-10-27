@@ -19,13 +19,14 @@ export class ExpressServer {
         }
 
         this.app.use(cors(corsOptions))
+        
+        if(process.env.DEV) {
+            this.app.use(LogsMiddleware);
+        }
 
         this.app.use(bodyParser.json());
         this.app.use('/api/v1/auth', authrouter);
-
-        if(process.env.DEV) {
-            this.app.use(LogsMiddleware)
-        }
+        console.log(process.env.DEV)
 
         this.app.all("/*", this.notfound)
         
