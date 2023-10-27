@@ -20,6 +20,10 @@ export const Verify = (req: Request, res: Response) => {
     res.status(200).json({
         status: 200,
         message: "Verify Success",
-        data: req.body.data
+        data: {
+            user: {
+                email: req.body.user.email,
+            }
+        },
     })
 }
