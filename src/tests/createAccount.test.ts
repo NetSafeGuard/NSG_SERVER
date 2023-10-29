@@ -10,7 +10,7 @@ describe('Teste da função Create', async () => {
                 user: {
                     email: 'admin@gmail.com',
                     username: 'admin',
-                    password: bycrpt.hashSync('admin', 8),
+                    password: "admin"
                 },
             },
         };
