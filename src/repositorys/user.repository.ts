@@ -2,11 +2,14 @@ import prisma from "../services/prismaClient";
 import bycrpt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export const validateAccount = async (email: string, password: string) => {
+export const validateAccount = async (account: string, password: string) => {
     return new Promise(async (resolve, reject) => {
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: {
-                email,
+                OR: [
+                    { username: account },
+                    { email: account }
+                ]
             },
         });
     
