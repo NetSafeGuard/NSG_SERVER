@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { validateAccount } from "../repositorys/user.repository";
+import { validateAccount, createUser } from "../repositorys/user.repository";
 
 export const Login = (req: Request, res: Response) => {
     const user = validateAccount(req.body.email, req.body.password).then((data) => {
@@ -26,4 +26,22 @@ export const Verify = (req: Request, res: Response) => {
             }
         },
     })
+}
+
+export const Create = async (req: Request, res: Response) => {
+
+    const user = await createUser(req.body.user.email, req.body.user.username, req.body.user.password)
+    if(user) {
+        res.status(200).json({
+            status: 200,
+            message: "Create Success",
+            data: user
+        })
+    } 
+    else {
+        res.status(400).json({
+            status: 400,
+            message: "Create Error"
+        })
+    }
 }
