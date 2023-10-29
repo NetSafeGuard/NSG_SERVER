@@ -14,8 +14,9 @@ export const validateAccount = async (account: string, password: string) => {
         });
     
         if(!user) return reject({ status: 400, message: "Conta não encontrada!" });
-    
+        console.log(user,password)
         const isValidPassword = await bycrpt.compare(password, user.password);
+        console.log(isValidPassword)
         const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET ?? 'SCR_2023', { expiresIn: "1d" });
 
         return isValidPassword ? resolve({ user:{...user, password: undefined}, token }) : reject({ status: 400, message: "Palavra-passe inválida" });

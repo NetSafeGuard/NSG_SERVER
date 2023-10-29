@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { validateAccount, createUser } from "../repositorys/user.repository";
 
 export const Login = (req: Request, res: Response) => {
-    const user = validateAccount(req.body.email, req.body.password).then((data) => {
+    const user = validateAccount(req.body.user, req.body.password).then((data) => {
         res.status(200).json({
             status: 200,
             message: "Login Success",
