@@ -3,8 +3,9 @@ import { Create } from '../controllers/authentication.controller';
 import { Request, Response } from "express";
 import bycrpt from 'bcryptjs';
 
-describe('Teste da função Create', async () => {
-    test('Deve retornar um objeto JSON com status 200 e os dados do usuário', async () => {
+describe('Creating Account', async () => {
+
+    test('Should return a JSON object with status 200 and user data', async () => {
         const req = {
             body: {
                 user: {
