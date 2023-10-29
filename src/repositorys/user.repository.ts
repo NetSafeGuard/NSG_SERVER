@@ -17,7 +17,7 @@ export const validateAccount = async (account: string, password: string) => {
 
         const isValidPassword = await bycrpt.compare(password, user.password);
 
-        let finaluser = {
+        const finaluser = {
             ...user,
             password: undefined
         }
@@ -48,8 +48,13 @@ export const createUser = async (email: string, username: string, password: stri
                 password: hashedPassword
             }
         });
+
+        const finaluser = {
+            ...newUser,
+            password: undefined,
+        }
     
-        const token = jwt.sign({ ...newUser, password: undefined }, process.env.JWT_SECRET ?? 'SCR_2023', { expiresIn: "1d" });
-        return resolve({ user: {...newUser, password: undefined, id: undefined}, token });
+        const token = jwt.sign({ ...finaluser }, process.env.JWT_SECRET ?? 'SCR_2023', { expiresIn: "1d" });
+        return resolve({ user: {...finaluser, id: undefined}, token });
     })
 }
