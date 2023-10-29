@@ -29,7 +29,6 @@ export const getUserByEmailOrUsername = async (email: string, username: string) 
 }
 
 export const createUser = async (email: string, username: string, password: string) => {
-    console.log(password)
     const hashedPassword = await bycrpt.hash(password, 10);
 
     const newUser = await prisma.user.create({

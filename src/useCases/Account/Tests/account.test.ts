@@ -1,5 +1,5 @@
 import { describe } from "node:test";
-import { Create, Login } from '../Controllers/account.controller';
+import { Create, Login } from '../Controller/account.controller';
 import { Request, Response } from "express";
 import bycrpt from 'bcryptjs';
 
