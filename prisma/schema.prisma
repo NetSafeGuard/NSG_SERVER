@@ -31,6 +31,7 @@ model Event {
 model Student {
   id       Int      @id @default(autoincrement())
   name     String
+  email   String
   number   Int
   routerip String
   code    String
