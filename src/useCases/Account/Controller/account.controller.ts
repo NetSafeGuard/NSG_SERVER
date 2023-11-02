@@ -46,7 +46,7 @@ export const Verify = (req: Request, res: Response) => {
         message: "Verify Success",
         data: {
             user: {
-                email: req.body.user.email,
+                ...req.body.user
             }
         },
     })
