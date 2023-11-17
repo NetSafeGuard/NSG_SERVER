@@ -1,6 +1,5 @@
 import prisma from "../../../services/prismaClient";
 import bycrpt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 export const getAccount = async (account: string) => {
     const user = await prisma.user.findFirst({
