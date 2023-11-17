@@ -20,7 +20,7 @@ describe('Creating Account', async () => {
         };
         
         await Create(req as Request, res as unknown as Response);
-        
+   
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
             status: 200,
@@ -30,6 +30,7 @@ describe('Creating Account', async () => {
                     email: 'admin@gmail.com',
                     username: 'admin',
                     avatar: expect.any(String),
+                    role: expect.any(String),
                 },
                 token: expect.any(String),
             },
@@ -60,6 +61,7 @@ describe('Creating Account', async () => {
                     email: 'admin@gmail.com',
                     username: 'admin',
                     avatar: expect.any(String),
+                    role: expect.any(String),
                 },
                 token: expect.any(String),
             },

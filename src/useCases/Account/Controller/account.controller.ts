@@ -5,14 +5,13 @@ import jwt from "jsonwebtoken";
 
 export const Login = async (req: Request, res: Response) => {
     const account = await getAccount(req.body.user)
-
+    
     if(!account) return res.status(400).json({
         status: 400,
         message: "Conta não encontrada"
     })
 
     const isValidPassword = await bycrpt.compare(req.body.password,account.password);
-    console.log(isValidPassword)
 
     if(!isValidPassword) return res.status(400).json({
         status: 400,
