@@ -6,7 +6,7 @@ import { LogsMiddleware } from '../middleware/logs.middleware';
 import cors from 'cors';
 
 export class ExpressServer {
-    private app: express.Application;
+    public app: express.Application;
 
     constructor() {
         this.app = express();
