@@ -18,6 +18,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
+    "start": "ts-node src/index.ts",
     "dev": "npx tsc-watch --onSuccess \"node ./dist/src/index.js\"",
     "build": "tsc -p .",
     "test": "jest"
