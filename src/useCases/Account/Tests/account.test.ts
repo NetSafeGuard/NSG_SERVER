@@ -27,10 +27,7 @@ describe('Creating Account', async () => {
             message: "Create Success",
             data: {
                 user: {
-                    email: 'admin@gmail.com',
-                    username: 'admin',
-                    avatar: expect.any(String),
-                    role: expect.any(String),
+                    email: 'admin@gmail.com'
                 },
                 token: expect.any(String),
             },
@@ -59,9 +56,6 @@ describe('Creating Account', async () => {
             data: {
                 user: {
                     email: 'admin@gmail.com',
-                    username: 'admin',
-                    avatar: expect.any(String),
-                    role: expect.any(String),
                 },
                 token: expect.any(String),
             },

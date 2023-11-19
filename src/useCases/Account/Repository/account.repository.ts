@@ -39,5 +39,5 @@ export const createUser = async (email: string, username: string, password: stri
         }
     });
 
-    return newUser;
+    return newUser.email;
 }

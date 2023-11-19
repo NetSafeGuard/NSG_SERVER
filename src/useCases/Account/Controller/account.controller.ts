@@ -18,20 +18,14 @@ export const Login = async (req: Request, res: Response) => {
         message: "Palavra-passe inválida"
     })
 
-    const finaluser = {
-        ...account,
-        password: undefined,
-        id: undefined
-    }
-
-    const token = jwt.sign({ ...finaluser }, process.env.JWT_SECRET ?? 'SCR_2023', { expiresIn: "1d" });
+    const token = jwt.sign({ email: account.email }, process.env.JWT_SECRET ?? 'SCR_2023', { expiresIn: "1d" });
 
     res.status(200).json({
         status: 200,
         message: "Login Success",
         data: {
             user: {
-                ...finaluser
+                email: account.email
             },
             token
         }
@@ -61,20 +55,14 @@ export const Create = async (req: Request, res: Response) => {
 
     const newUser = await createUser(req.body.email, req.body.username, req.body.password);
 
-    const finaluser = {
-        ...newUser,
-        password: undefined,
-        id: undefined
-    }
-
-    const token = jwt.sign({ ...finaluser }, process.env.JWT_SECRET ?? 'SCR_2023', { expiresIn: "1d" });
+    const token = jwt.sign({email: newUser}, process.env.JWT_SECRET ?? 'SCR_2023', { expiresIn: "1d" });
 
     res.status(200).json({
         status: 200,
         message: "Create Success",
         data: {
             user: {
-                ...finaluser
+                email: newUser
             },
             token
         }
