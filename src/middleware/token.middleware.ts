@@ -19,12 +19,18 @@ export const TokenMiddleware = (req: Request, res: Response, next: NextFunction)
             });
 
             const newuser = await getAccount((user as any).email)
+            
             if (!newuser) return res.status(403).json({
                 status: 403,
                 message: "Invalid Token"
             });
 
-            req.body.user = newuser;
+            req.body.user = {
+                email: newuser.email,
+                role: newuser.role,
+                avatar: newuser.avatar,
+                username: newuser.username
+            };
             next();
         });
     } else {
