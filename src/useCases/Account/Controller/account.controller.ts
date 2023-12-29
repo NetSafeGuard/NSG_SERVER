@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createUser, getAccount, getUserByEmailOrUsername } from "../Repository/account.repository";
+import { createUser, getAccount, getUserByEmailOrUsername, getUsers } from "../Repository/account.repository";
 import bycrpt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -65,6 +65,17 @@ export const Create = async (req: Request, res: Response) => {
                 email: newUser
             },
             token
+        }
+    })
+}
+
+export const getAccounts = async (req: Request, res: Response) => {
+    const users = await getUsers();
+
+    res.status(200).json({
+        status: 200,
+        data: {
+            users
         }
     })
 }
