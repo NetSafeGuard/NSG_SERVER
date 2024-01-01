@@ -53,7 +53,7 @@ export const Create = async (req: Request, res: Response) => {
         message: "Conta já existente!"
     });
 
-    const newUser = await createUser(req.body.email, req.body.username, req.body.password);
+    const newUser = await createUser(req.body.email, req.body.username, req.body.password ?? 'admin');
 
     const token = jwt.sign({email: newUser}, process.env.JWT_SECRET ?? 'SCR_2023', { expiresIn: "1d" });
 
