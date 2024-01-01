@@ -1,6 +1,7 @@
 import express from "express";
 import { authrouter } from "../router/authentication.route";
 import { accountsrouter } from "../router/accounts.route";
+import { inforouter } from "../router/infos.route";
 import { Request, Response } from "express";
 import bodyParser from "body-parser";
 import { LogsMiddleware } from "../middleware/logs.middleware";
@@ -28,6 +29,7 @@ export class ExpressServer {
         this.app.use(bodyParser.json());
         this.app.use("/api/v1/auth", authrouter);
         this.app.use("/api/v1/account", accountsrouter);
+        this.app.use("/api/v1/info", inforouter);
 
         this.app.all("/*", this.notfound)
         
