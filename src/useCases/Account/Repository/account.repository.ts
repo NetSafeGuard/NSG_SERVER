@@ -47,7 +47,8 @@ export const getUsers = async () => {
         select: {
             email: true,
             username: true,
-            role: true
+            role: true,
+            avatar: true
         }
     });
 
