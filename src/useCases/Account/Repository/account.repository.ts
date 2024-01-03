@@ -42,6 +42,20 @@ export const createUser = async (email: string, username: string, password: stri
     return newUser.email;
 }
 
+export const updateUser = async (email: string, username: string) => {
+
+    const newUser = await prisma.user.update({
+        where: {
+            email
+        },
+        data: {
+            username,
+        }
+    });
+
+    return newUser.email;
+}
+
 export const getUsers = async () => {
     const users = await prisma.user.findMany({
         select: {

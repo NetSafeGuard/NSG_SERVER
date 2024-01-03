@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { createUser, getAccount, getUserByEmailOrUsername, getUsers } from "../Repository/account.repository";
+import { createUser, getAccount, getUserByEmailOrUsername, getUsers, updateUser } from "../Repository/account.repository";
 import bycrpt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const Login = async (req: Request, res: Response) => {
-    const account = await getAccount(req.body.user)
+    const account = await getAccount(req.body.username)
     
     if(!account) return res.status(400).json({
         status: 400,
@@ -67,6 +67,28 @@ export const Create = async (req: Request, res: Response) => {
             token
         }
     })
+}
+
+export const Update = async (req: Request, res: Response) => {
+    const account = await getUserByEmailOrUsername(req.body.email, req.body.username);
+
+    if(!account) return res.status(400).json({
+        status: 400,
+        message: "Conta não existente!"
+    });
+
+    const newUser = await updateUser(req.body.email, req.body.username);
+
+    res.status(200).json({
+        status: 200,
+        message: "Update Success",
+        data: {
+            user: {
+                email: newUser
+            }
+        }
+    })
+   
 }
 
 export const getAccounts = async (req: Request, res: Response) => {
