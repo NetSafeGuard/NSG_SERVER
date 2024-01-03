@@ -16,7 +16,7 @@ export class ExpressServer {
 
     start() {
         const corsOptions = {
-            origin: process.env.CLIENT_URL,
+            origin: '*',
             optionsSuccessStatus: 200
         }
 
