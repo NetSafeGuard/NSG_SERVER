@@ -9,4 +9,4 @@ import { AccountSchema } from "../schemas/accountdata.schema";
 export const accountsrouter = Router();
 
 accountsrouter.get('/', [TokenMiddleware], Controller.getAccounts);
-accountsrouter.post('/create', [limiter, ValidateMiddleware(AccountSchema)], Controller.Create)
+accountsrouter.post('/', [limiter, ValidateMiddleware(AccountSchema)], Controller.Create)
