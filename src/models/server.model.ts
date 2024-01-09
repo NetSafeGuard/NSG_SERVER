@@ -1,9 +1,7 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { authrouter } from "../router/authentication.route";
 import { accountsrouter } from "../router/accounts.route";
 import { inforouter } from "../router/infos.route";
-import { Request, Response } from "express";
-import bodyParser from "body-parser";
 import { LogsMiddleware } from "../middleware/logs.middleware";
 import cors from "cors";
 
@@ -26,7 +24,8 @@ export class ExpressServer {
             this.app.use(LogsMiddleware);
         }
 
-        this.app.use(bodyParser.json());
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true }));
         this.app.use("/api/v1/auth", authrouter);
         this.app.use("/api/v1/account", accountsrouter);
         this.app.use("/api/v1/info", inforouter);
