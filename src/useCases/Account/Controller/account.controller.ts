@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createUser, getAccount, getUserByEmailOrUsername, getUsers, updateUser } from "../Repository/account.repository";
+import { createUser, getAccount, getUserByEmailOrUsername, getUsers, updateUser, deleteUser } from "../Repository/account.repository";
 import bycrpt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -82,6 +82,28 @@ export const Update = async (req: Request, res: Response) => {
     res.status(200).json({
         status: 200,
         message: "Update Success",
+        data: {
+            user: {
+                email: newUser
+            }
+        }
+    })
+   
+}
+
+export const Delete = async (req: Request, res: Response) => {
+    const account = await getUserByEmailOrUsername(req.body.email, req.body.username);
+
+    if(!account) return res.status(400).json({
+        status: 400,
+        message: "Conta não existente!"
+    });
+
+    const newUser = await deleteUser(req.body.email);
+
+    res.status(200).json({
+        status: 200,
+        message: "Delete Success",
         data: {
             user: {
                 email: newUser

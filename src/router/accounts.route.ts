@@ -11,3 +11,4 @@ export const accountsrouter = Router();
 accountsrouter.get('/', [TokenMiddleware, PermissionMiddleware("ADMIN")], Controller.getAccounts);
 accountsrouter.post('/', [limiter, TokenMiddleware, ValidateMiddleware(AccountSchema), PermissionMiddleware("ADMIN")], Controller.Create)
 accountsrouter.put('/', [TokenMiddleware, ValidateMiddleware(AccountEdit), PermissionMiddleware("ADMIN")], Controller.Update)
+accountsrouter.delete('/', [TokenMiddleware, PermissionMiddleware("ADMIN")], Controller.Delete)
