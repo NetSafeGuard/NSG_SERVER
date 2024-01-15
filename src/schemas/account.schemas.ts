@@ -14,4 +14,5 @@ export const AccountEdit = yup.object({
     old_email: yup.string().required(),
     email: yup.string().required(),
     username: yup.string().required(),
+    avatar: yup.string().required(),
 });

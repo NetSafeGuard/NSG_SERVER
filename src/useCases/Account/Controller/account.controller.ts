@@ -77,7 +77,7 @@ export const Update = async (req: Request, res: Response) => {
         message: "Conta não existente!"
     });
 
-    const newUser = await updateUser(req.body.email, req.body.username);
+    const newUser = await updateUser(req.body.email, req.body.username, req.body.avatar);
 
     res.status(200).json({
         status: 200,
