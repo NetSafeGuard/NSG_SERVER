@@ -35,7 +35,7 @@ export const createUser = async (email: string, username: string, password: stri
             email,
             username,
             password: hashedPassword,
-            role: ""
+            role: "USER"
         }
     });
 
