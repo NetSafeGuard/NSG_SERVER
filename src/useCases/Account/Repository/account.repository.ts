@@ -73,7 +73,8 @@ export const getUsers = async () => {
             email: true,
             username: true,
             role: true,
-            avatar: true
+            avatar: true,
+            createdAt: true,
         }
     });
 
