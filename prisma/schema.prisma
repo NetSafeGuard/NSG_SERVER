@@ -16,6 +16,7 @@ model User {
   avatar  String  @default("Nenhum Definido")
   role Role @default(USER)
   events    Event[]
+  createdAt DateTime @default(now())
 }
 
 model Event {
