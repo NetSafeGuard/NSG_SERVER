@@ -29,7 +29,7 @@ export class ExpressServer {
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use("/api/v1/auth", authrouter);
         this.app.use("/api/v1/account", accountsrouter);
-        this.app.use("/api/v1/info", inforouter);
+        this.app.use("/api/v1/infos", inforouter);
         this.app.use("/api/v1/exams", examsrouter);
 
         this.app.all("/*", this.notfound)
