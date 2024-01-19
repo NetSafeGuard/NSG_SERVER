@@ -4,6 +4,7 @@ import { accountsrouter } from "../router/accounts.route";
 import { inforouter } from "../router/infos.route";
 import { LogsMiddleware } from "../middleware/logs.middleware";
 import cors from "cors";
+import { examsrouter } from "../router/exams.route";
 
 export class ExpressServer {
     public app: express.Application;
@@ -29,6 +30,7 @@ export class ExpressServer {
         this.app.use("/api/v1/auth", authrouter);
         this.app.use("/api/v1/account", accountsrouter);
         this.app.use("/api/v1/info", inforouter);
+        this.app.use("/api/v1/exams", examsrouter);
 
         this.app.all("/*", this.notfound)
         
