@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getUsers } from "../../Account/Repository/account.repository";
+import { getUsers } from "../../Accounts/Repository/account.repository";
 
 export const getInfos = async (req: Request, res: Response) => {
   const users = await getUsers();

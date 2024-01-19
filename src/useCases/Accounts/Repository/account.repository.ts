@@ -1,4 +1,4 @@
-import prisma from "../../../services/prismaClient";
+import prisma from "../../../services/prismaClient.service";
 import bycrpt from "bcryptjs";
 
 export const getAccount = async (account: string) => {

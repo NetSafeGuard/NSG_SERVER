@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { getAccount } from "../useCases/Account/Repository/account.repository";
+import { getAccount } from "../useCases/Accounts/Repository/account.repository";
 
 export const TokenMiddleware = (
   req: Request,
