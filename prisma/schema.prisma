@@ -13,6 +13,7 @@ model User {
   username String   @unique
   email     String   @unique
   password  String
+  defaultpassword Boolean @default(true)
   avatar  String  @default("Nenhum Definido")
   role Role @default(USER)
   events    Event[]
