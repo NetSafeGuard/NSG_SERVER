@@ -80,3 +80,19 @@ export const getUsers = async () => {
 
     return users
 }
+
+export const activeUser = async (email: string, password: string) => {
+    const hashedPassword = await bycrpt.hash(password, 10);
+
+    const newUser = await prisma.user.update({
+        where: {
+            email
+        },
+        data: {
+            password: hashedPassword,
+            defaultpassword: false
+        }
+    });
+
+    return newUser;
+}

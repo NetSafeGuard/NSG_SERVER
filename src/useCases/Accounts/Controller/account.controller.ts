@@ -6,6 +6,7 @@ import {
   getUsers,
   updateUser,
   deleteUser,
+  activeUser,
 } from "../Repository/account.repository";
 import bycrpt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -142,6 +143,38 @@ export const Delete = async (req: Request, res: Response) => {
   res.status(200).json({
     status: 200,
     message: "Delete Success",
+    data: {
+      user: {
+        email: newUser,
+      },
+    },
+  });
+};
+
+export const Active = async (req: Request, res: Response) => {
+  const account = await getUserByEmailOrUsername(
+    req.body.user.email,
+    req.body.user.username
+  );
+
+  if (!account)
+    return res.status(400).json({
+      status: 400,
+      message: "Conta não existente!",
+    });
+
+  if (!account.defaultpassword)
+    return res.status(400).json({
+      status: 400,
+      message: "Conta já ativada!",
+    });
+    
+
+  const newUser = await activeUser(req.body.user.email, req.body.password);
+
+  res.status(200).json({
+    status: 200,
+    message: "Active Success",
     data: {
       user: {
         email: newUser,

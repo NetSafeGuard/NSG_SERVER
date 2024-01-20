@@ -16,3 +16,8 @@ export const AccountEdit = yup.object({
     username: yup.string().required(),
     avatar: yup.string().required(),
 });
+
+export const AccountActive = yup.object({
+    email: yup.string().required(),
+    password: yup.string().required(),
+});
