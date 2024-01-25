@@ -18,3 +18,5 @@ authrouter.post(
   [TokenMiddleware, ValidateMiddleware(AccountActive)],
   authenticationController.Active
 );
+
+authrouter.post('/recover', [limiter, TokenMiddleware], () => {})

@@ -1,6 +1,6 @@
 import "dotenv/config";
-import { ExpressServer } from "./models/server.model";
-import { transporter } from "./services/nodeMailer.service";
+import { ExpressServer } from "./http/models/server.model";
+import { transporter } from "./http/services/nodeMailer.service";
 
 const server = new ExpressServer();
 server.start();
@@ -8,7 +8,7 @@ server.start();
 transporter
   .verify()
   .then(() => {
-    console.log("[Email Service] Ready for send emails!");
+    console.log("[📨] Ready to send emails!");
   })
   .catch((err) => {
     console.log(err);

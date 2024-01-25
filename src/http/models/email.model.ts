@@ -4,9 +4,9 @@ export class EmailTemplate {
   public subject: string;
   public html: string;
 
-  constructor() {
-    this.subject = "";
-    this.html = "";
+  constructor(subject: string, html: string) {
+    this.subject = subject;
+    this.html = html;
   }
 
   public sendEmail = (email: string) => {
