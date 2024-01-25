@@ -39,7 +39,7 @@ export const TokenMiddleware = (
           role: newuser.role,
           avatar: newuser.avatar,
           username: newuser.username,
-          defaultpassword: newuser.defaultpassword,
+          activated: newuser.activated,
         };
         next();
       }

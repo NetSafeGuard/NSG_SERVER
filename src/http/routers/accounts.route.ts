@@ -7,10 +7,11 @@ import { AccountSchema, AccountEdit } from "../schemas/account.schemas";
 import { PermissionMiddleware } from "../middlewares/permission.middleware";
 
 export const accountsrouter = Router();
+
 accountsrouter.post(
   "/",
   [
-    limiter,
+    limiter(3, 60000),
     TokenMiddleware,
     ValidateMiddleware(AccountSchema),
     PermissionMiddleware("ADMIN"),

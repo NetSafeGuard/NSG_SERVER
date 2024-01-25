@@ -90,9 +90,12 @@ export const activeUser = async (email: string, password: string) => {
         },
         data: {
             password: hashedPassword,
-            defaultpassword: false
+            activated: false
         }
     });
 
     return newUser;
+}
+
+export const recoverUser = async (email: string, token: string) => {
 }

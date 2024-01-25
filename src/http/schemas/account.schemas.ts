@@ -21,3 +21,7 @@ export const AccountActive = yup.object({
     email: yup.string().required(),
     password: yup.string().required(),
 });
+
+export const AccountRecover = yup.object({
+    email: yup.string().required(),
+});  
