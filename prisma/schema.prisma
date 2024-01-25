@@ -13,7 +13,7 @@ model User {
   username String   @unique
   email     String   @unique
   password  String
-  defaultpassword Boolean @default(true)
+  activated Boolean @default(true)
   avatar  String  @default("Nenhum Definido")
   role Role @default(USER)
   events    Event[]
@@ -41,6 +41,12 @@ model Student {
   joined  Boolean
   eventId Int
   event    Event    @relation(fields: [eventId], references: [id])
+}
+
+model Token {
+  id       Int      @id @default(autoincrement())
+  token    String   @unique
+  email   String
 }
 
 enum Role {
