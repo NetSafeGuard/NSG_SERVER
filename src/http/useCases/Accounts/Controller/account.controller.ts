@@ -13,6 +13,7 @@ import bycrpt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { RevoveryTemplate } from "../../../templates/recovery.template";
 import { v4 } from "uuid";
+import { createToken } from "../../Tokens/Repository/token.repository";
 
 export const Login = async (req: Request, res: Response) => {
   const account = await getAccount(req.body.username);
@@ -166,7 +167,7 @@ export const Active = async (req: Request, res: Response) => {
       message: "Conta não existente!",
     });
 
-  if (!account.activated)
+  if (account.activated)
     return res.status(400).json({
       status: 400,
       message: "Conta já ativada!",
@@ -198,18 +199,13 @@ export const Recover = async (req: Request, res: Response) => {
 
     const token = v4()
 
-    const recover = await recoverUser(req.body.email, token);
+    await createToken(token, req.body.email);
 
     const email = new RevoveryTemplate(req.body.email, token);
     email.sendEmail(req.body.email);
 
   res.status(200).json({
     status: 200,
-    message: "Recover Success",
-    data: {
-      user: {
-        email: recover,
-      },
-    },
+    message: "Email enviado com sucesso!",
   });
 };

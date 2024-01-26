@@ -16,3 +16,21 @@ export const createToken = async (token: string, email: string) => {
 
   return newToken;
 };
+
+export const getToken = async (token: string) => {
+  const newToken = await prisma.token.findFirst({
+    where: {
+      token,
+    },
+  });
+
+  return newToken;
+};
+
+export const deleteToken = async (email: string) => {
+  await prisma.token.deleteMany({
+    where: {
+      email,
+    },
+  });
+};

@@ -2,6 +2,7 @@ import { EmailTemplate } from "../models/email.model";
 
 export class RevoveryTemplate extends EmailTemplate {
   constructor(email: string, token: string) {
+    const url = process.env.DEV ? "http://localhost:8080" : "https://api.netsafeguard.cloud";
     super(
         "Recuperação de Conta",
         `
@@ -22,7 +23,7 @@ export class RevoveryTemplate extends EmailTemplate {
                         <p style="color: #555555; text-align: center;">Para redefinir sua senha, clique no link abaixo:</p>
                 
                         <p style="text-align: center;">
-                            <a href="https://netsafeguard.cloud/recovery/${token}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;">Redefinir Palavra-passe</a>
+                            <a href="${url}/token/validate/${token}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;">Redefinir Palavra-passe</a>
                         </p>
                 
                         <p style="color: #555555; text-align: center;">Se você não solicitou a recuperação de senha, por favor, ignore este email.</p>

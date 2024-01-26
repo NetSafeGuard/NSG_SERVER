@@ -1,3 +1,4 @@
+import { v4 } from "uuid";
 import prisma from "../../../services/prismaClient.service";
 import bycrpt from "bcryptjs";
 
@@ -90,12 +91,28 @@ export const activeUser = async (email: string, password: string) => {
         },
         data: {
             password: hashedPassword,
-            activated: false
+            activated: true
         }
     });
 
     return newUser;
 }
 
-export const recoverUser = async (email: string, token: string) => {
+export const recoverUser = async (email: string) => {
+
+    const newpass = v4();
+
+    const password = bycrpt.hashSync(newpass, 10);
+
+    const newUser = await prisma.user.update({
+        where: {
+            email
+        },
+        data: {
+            password,
+            activated: false
+        }
+    });
+
+    return newpass;
 }
