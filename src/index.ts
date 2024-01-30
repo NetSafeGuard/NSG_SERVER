@@ -1,9 +1,13 @@
 import "dotenv/config";
 import { ExpressServer } from "./http/models/server.model";
 import { transporter } from "./http/services/nodeMailer.service";
+import { SocketServer } from "./wss/models/server";
 
-const server = new ExpressServer();
+export const server = new ExpressServer();
 server.start();
+
+const wss = new SocketServer();
+wss.start();
 
 transporter
   .verify()
@@ -13,8 +17,6 @@ transporter
   .catch((err) => {
     console.log(err);
   });
-
-export default server.app;
 
 process.on("unhandledRejection", (err) => {
   console.log(err);
