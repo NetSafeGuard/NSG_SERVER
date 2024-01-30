@@ -103,8 +103,8 @@ export const Create = async (req: Request, res: Response) => {
 
 export const Update = async (req: Request, res: Response) => {
   const account = await getUserByEmailOrUsername(
-    req.body.email,
-    req.body.username
+    req.body.old_email,
+    ""
   );
 
   if (!account)
@@ -113,7 +113,18 @@ export const Update = async (req: Request, res: Response) => {
       message: "Conta não existente!",
     });
 
+    const newaccount = await getUserByEmailOrUsername(
+      req.body.email,
+      ""
+    );
+
+    if(newaccount && newaccount.email != req.body.old_email || newaccount && newaccount.username != req.body.username) return res.status(400).json({
+      status: 400,
+      message: "Já existe uma conta com esse email ou nome de utilizador!",
+    });
+
   const newUser = await updateUser(
+    req.body.old_email,
     req.body.email,
     req.body.username,
     req.body.avatar
