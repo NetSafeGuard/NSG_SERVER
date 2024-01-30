@@ -24,11 +24,13 @@ model Event {
   id       Int      @id @default(autoincrement())
   userId   Int
   creator     User     @relation(fields: [userId], references: [id])
-  date     DateTime
+  title     String
+  description String
+  startDate    DateTime
+  endDate     DateTime
   code String
   redirectUrl String
   students Student[]
-  ended Boolean
 }
 
 model Student {
