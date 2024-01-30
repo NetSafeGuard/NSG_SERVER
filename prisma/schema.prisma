@@ -16,11 +16,11 @@ model User {
   activated Boolean @default(false)
   avatar  String  @default("Nenhum Definido")
   role Role @default(USER)
-  events    Event[]
+  activities    Activity[]
   createdAt DateTime @default(now())
 }
 
-model Event {
+model Activity {
   id       Int      @id @default(autoincrement())
   userId   Int
   creator     User     @relation(fields: [userId], references: [id])
@@ -30,7 +30,15 @@ model Event {
   endDate     DateTime
   code String
   redirectUrl String
-  students Student[]
+  groups    Group[]
+}
+
+model Group {
+  id       Int      @id @default(autoincrement())
+  name     String
+  code    String
+  activities    Activity[]
+  createdAt DateTime @default(now())
 }
 
 model Student {
@@ -41,8 +49,6 @@ model Student {
   routerip String
   code    String
   joined  Boolean
-  eventId Int
-  event    Event    @relation(fields: [eventId], references: [id])
 }
 
 model Token {
