@@ -104,7 +104,6 @@ export const Create = async (req: Request, res: Response) => {
   getUsers().then((users) => {
     wss.io.emit("users", users);
   });
-
 };
 
 export const Update = async (req: Request, res: Response) => {
@@ -118,10 +117,7 @@ export const Update = async (req: Request, res: Response) => {
 
   const newaccount = await getUserByEmailOrUsername(req.body.email, "");
 
-  if (
-    (newaccount && newaccount.email != req.body.old_email) ||
-    (newaccount && newaccount.username != req.body.username)
-  )
+  if (newaccount && newaccount.email != req.body.old_email)
     return res.status(400).json({
       status: 400,
       message: "Já existe uma conta com esse email ou nome de utilizador!",
