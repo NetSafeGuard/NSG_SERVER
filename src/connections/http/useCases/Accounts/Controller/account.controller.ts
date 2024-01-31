@@ -14,6 +14,7 @@ import jwt from "jsonwebtoken";
 import { RevoveryTemplate } from "../../../templates/recovery.template";
 import { v4 } from "uuid";
 import { createToken } from "../../Tokens/Repository/token.repository";
+import { wss } from "@/index";
 
 export const Login = async (req: Request, res: Response) => {
   const account = await getAccount(req.body.username);
@@ -100,6 +101,10 @@ export const Create = async (req: Request, res: Response) => {
     },
   });
 
+  getUsers().then((users) => {
+    wss.io.emit("users", users);
+  });
+
 };
 
 export const Update = async (req: Request, res: Response) => {
@@ -138,6 +143,10 @@ export const Update = async (req: Request, res: Response) => {
       },
     },
   });
+
+  getUsers().then((users) => {
+    wss.io.emit("users", users);
+  });
 };
 
 export const Delete = async (req: Request, res: Response) => {
@@ -162,6 +171,10 @@ export const Delete = async (req: Request, res: Response) => {
         email: newUser,
       },
     },
+  });
+
+  getUsers().then((users) => {
+    wss.io.emit("users", users);
   });
 };
 
