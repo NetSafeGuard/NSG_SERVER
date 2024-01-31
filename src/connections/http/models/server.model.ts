@@ -3,7 +3,7 @@ import { authrouter } from "../routers/authentication.route";
 import { accountsrouter } from "../routers/accounts.route";
 import { inforouter } from "../routers/infos.route";
 import cors from "cors";
-import { examsrouter } from "../routers/exams.route";
+import { activityrouter } from "../routers/activities.route";
 import { tokenrouter } from "../routers/token.route";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -34,7 +34,7 @@ export class ExpressServer {
     this.app.use("/api/v1/auth", authrouter);
     this.app.use("/api/v1/account", accountsrouter);
     this.app.use("/api/v1/infos", inforouter);
-    this.app.use("/api/v1/exams", examsrouter);
+    this.app.use("/api/v1/activities", activityrouter);
     this.app.use("/token/", tokenrouter);
 
     this.app.all("/*", this.notfound);
