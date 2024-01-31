@@ -7,7 +7,7 @@ import {
   updateUser,
   deleteUser,
   activeUser,
-  recoverUser
+  recoverUser,
 } from "../Repository/account.repository";
 import bycrpt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -99,13 +99,11 @@ export const Create = async (req: Request, res: Response) => {
       token,
     },
   });
+
 };
 
 export const Update = async (req: Request, res: Response) => {
-  const account = await getUserByEmailOrUsername(
-    req.body.old_email,
-    ""
-  );
+  const account = await getUserByEmailOrUsername(req.body.old_email, "");
 
   if (!account)
     return res.status(400).json({
@@ -113,12 +111,13 @@ export const Update = async (req: Request, res: Response) => {
       message: "Conta não existente!",
     });
 
-    const newaccount = await getUserByEmailOrUsername(
-      req.body.email,
-      ""
-    );
+  const newaccount = await getUserByEmailOrUsername(req.body.email, "");
 
-    if(newaccount && newaccount.email != req.body.old_email || newaccount && newaccount.username != req.body.username) return res.status(400).json({
+  if (
+    (newaccount && newaccount.email != req.body.old_email) ||
+    (newaccount && newaccount.username != req.body.username)
+  )
+    return res.status(400).json({
       status: 400,
       message: "Já existe uma conta com esse email ou nome de utilizador!",
     });
@@ -183,7 +182,6 @@ export const Active = async (req: Request, res: Response) => {
       status: 400,
       message: "Conta já ativada!",
     });
-    
 
   const newUser = await activeUser(req.body.user.email, req.body.password);
 
@@ -198,7 +196,6 @@ export const Active = async (req: Request, res: Response) => {
   });
 };
 
-
 export const Recover = async (req: Request, res: Response) => {
   const getAccount = await getUserByEmailOrUsername(req.body.email, "");
 
@@ -208,12 +205,12 @@ export const Recover = async (req: Request, res: Response) => {
       message: "Conta não existente!",
     });
 
-    const token = v4()
+  const token = v4();
 
-    await createToken(token, req.body.email);
+  await createToken(token, req.body.email);
 
-    const email = new RevoveryTemplate(req.body.email, token);
-    email.sendEmail(req.body.email);
+  const email = new RevoveryTemplate(req.body.email, token);
+  email.sendEmail(req.body.email);
 
   res.status(200).json({
     status: 200,

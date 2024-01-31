@@ -1,12 +1,12 @@
 import "dotenv/config";
-import { ExpressServer } from "./http/models/server.model";
-import { transporter } from "./http/services/nodeMailer.service";
-import { SocketServer } from "./wss/models/server";
+import { ExpressServer } from "@/connections/http/models/server.model";
+import { transporter } from "@/connections/http/services/nodeMailer.service";
+import { SocketServer } from "@/connections/wss/models/server";
 
 export const server = new ExpressServer();
 server.start();
 
-const wss = new SocketServer();
+export const wss = new SocketServer();
 wss.start();
 
 transporter
@@ -26,5 +26,4 @@ process.on("unhandledRejection", (err) => {
 process.on("uncaughtException", (err) => {
   console.log(err);
   process.exit(1);
-}); 
-
+});

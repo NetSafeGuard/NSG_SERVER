@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import { authrouter } from "../routers/authentication.route";
 import { accountsrouter } from "../routers/accounts.route";
 import { inforouter } from "../routers/infos.route";
-import { LogsMiddleware } from "../middlewares/logs.middleware";
 import cors from "cors";
 import { examsrouter } from "../routers/exams.route";
 import { tokenrouter } from "../routers/token.route";
@@ -27,10 +26,6 @@ export class ExpressServer {
 
     this.app.use(cors(corsOptions));
 
-    if (process.env.DEV) {
-      this.app.use(LogsMiddleware);
-    }
-
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.set("view engine", "ejs");
@@ -45,7 +40,7 @@ export class ExpressServer {
     this.app.all("/*", this.notfound);
 
     this.server.listen(process.env.PORT, () => {
-      console.log(`Server is running on port ${process.env.PORT}`);
+      console.log(`[🧠] HTTP server is running on port ${process.env.PORT}`);
     });
   }
 
