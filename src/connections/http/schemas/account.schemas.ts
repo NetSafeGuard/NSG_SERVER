@@ -15,6 +15,7 @@ export const AccountEdit = yup.object({
     email: yup.string().required(),
     username: yup.string().required(),
     avatar: yup.string().required(),
+    role: yup.string().required(),
 });
 
 export const AccountActive = yup.object({

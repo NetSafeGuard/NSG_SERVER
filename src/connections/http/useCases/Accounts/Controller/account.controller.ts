@@ -127,7 +127,8 @@ export const Update = async (req: Request, res: Response) => {
     req.body.old_email,
     req.body.email,
     req.body.username,
-    req.body.avatar
+    req.body.avatar,
+    req.body.role
   );
 
   res.status(200).json({

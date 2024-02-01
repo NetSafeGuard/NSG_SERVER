@@ -1,6 +1,7 @@
 import { v4 } from "uuid";
 import prisma from "../../../services/prismaClient.service";
 import bycrpt from "bcryptjs";
+import { Role } from "@prisma/client";
 
 export const getAccount = async (account: string) => {
     const user = await prisma.user.findFirst({
@@ -43,7 +44,7 @@ export const createUser = async (email: string, username: string, password: stri
     return newUser.email;
 }
 
-export const updateUser = async (old_email: string, email: string, username: string, avatar: string) => {
+export const updateUser = async (old_email: string, email: string, username: string, avatar: string, role: string) => {
     const newUser = await prisma.user.update({
         where: {
             email: old_email
@@ -51,7 +52,8 @@ export const updateUser = async (old_email: string, email: string, username: str
         data: {
             username,
             avatar,
-            email
+            email,
+            role: role as Role
         }
     });
 
