@@ -39,16 +39,17 @@ model Group {
   code    String
   activities    Activity[]
   createdAt DateTime @default(now())
+  students Student[]
 }
 
 model Student {
   id       Int      @id @default(autoincrement())
   name     String
   email   String
-  number   Int
   routerip String
-  code    String
-  joined  Boolean
+  code    String? @unique
+  groupid Int
+  group Group @relation(fields: [groupid], references: [id])  
 }
 
 model Token {
