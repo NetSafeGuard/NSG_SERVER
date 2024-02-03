@@ -16,12 +16,12 @@ bikelightroute.post('/',  [ValidateMiddleware(BikeLightWebhook)], (req, res) => 
                 "fields": [
                     {
                         "name": "Estrelas:",
-                        "value": "5",
+                        "value": `${req.body.stars}`,
                         "inline": false
                     },
                     {
                         "name": "Texto:",
-                        "value": "Gostei muito do site, muito bom!",
+                        "value": `${req.body.text}`,
                         "inline": false
                     },
                 ],
