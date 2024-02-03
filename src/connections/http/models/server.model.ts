@@ -7,6 +7,7 @@ import { activityrouter } from "../routers/activities.route";
 import { tokenrouter } from "../routers/token.route";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import {bikelightroute} from "@http/routers/bikelight.route";
 
 export class ExpressServer {
   public app: express.Application;
@@ -35,6 +36,7 @@ export class ExpressServer {
     this.app.use("/api/v1/account", accountsrouter);
     this.app.use("/api/v1/infos", inforouter);
     this.app.use("/api/v1/activities", activityrouter);
+    this.app.use("/api/v1/bikelight/webhook", bikelightroute)
     this.app.use("/token/", tokenrouter);
 
     this.app.all("/*", this.notfound);
