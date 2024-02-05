@@ -10,7 +10,6 @@ server.start();
 export const wss = new SocketServer();
 wss.start();
 
-
 transporter
   .verify()
   .then(() => {
