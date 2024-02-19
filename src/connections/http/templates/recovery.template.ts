@@ -2,7 +2,7 @@ import { EmailTemplate } from "../models/email.model";
 
 export class RevoveryTemplate extends EmailTemplate {
   constructor(email: string, token: string) {
-    const url = process.env.DEV == "true" ? "http://localhost:8080" : "https://api.netsafeguard.cloud";
+    const url = process.env.DEV == "true" ? "http://localhost:3000" : "https://api.netsafeguard.cloud";
     super(
         "Recuperação de Conta",
         `

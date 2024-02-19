@@ -30,7 +30,7 @@ export class ExpressServer {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.set("view engine", "ejs");
-    this.app.set("views", "./src/http/views");
+    this.app.set("views", "./src/connections/http/views");
 
     this.app.use("/api/v1/auth", authrouter);
     this.app.use("/api/v1/account", accountsrouter);
