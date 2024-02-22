@@ -13,7 +13,7 @@ export const authrouter = Router();
 
 authrouter.post(
   "/login",
-  [limiter(5, 60000), ValidateMiddleware(LoginSchema)],
+  [limiter(7, 60000), ValidateMiddleware(LoginSchema)],
   authenticationController.Login
 );
 authrouter.post("/verify", [TokenMiddleware], authenticationController.Verify);

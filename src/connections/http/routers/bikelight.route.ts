@@ -1,6 +1,7 @@
 import {Router} from "express";
 import {BikeLightWebhook} from "@http/schemas/bikelight.schemas";
 import {ValidateMiddleware} from "@http/middlewares/validate.middleware";
+import { limiter } from "../middlewares/ratelimit.middleware";
 
 export const bikelightroute = Router();
 
@@ -14,6 +15,11 @@ bikelightroute.post('/',  [ValidateMiddleware(BikeLightWebhook)], (req, res) => 
 
                 "color": 15258703,
                 "fields": [
+                    {
+                        "name": "Nome:",
+                        "value": `${req.body.name}`,
+                        "inline": false
+                    },
                     {
                         "name": "Estrelas:",
                         "value": `${req.body.stars}`,
