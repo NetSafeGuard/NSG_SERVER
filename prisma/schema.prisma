@@ -34,9 +34,9 @@ model Activity {
 }
 
 model Group {
-  id       Int      @id @default(autoincrement())
-  name     String
-  code    String
+  id       Int     @id @default(autoincrement())
+  name     String @unique 
+  code    String @unique
   activities    Activity[]
   createdAt DateTime @default(now())
   students Student[]
