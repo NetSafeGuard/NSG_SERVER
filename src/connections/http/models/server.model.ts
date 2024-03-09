@@ -1,12 +1,10 @@
 import express, { Request, Response } from "express";
 import { authrouter } from "../routers/authentication.route";
 import { accountsrouter } from "../routers/accounts.route";
-import { inforouter } from "../routers/infos.route";
 import cors from "cors";
 import { activityrouter } from "../routers/activities.route";
 import { tokenrouter } from "../routers/token.route";
 import { createServer } from "http";
-import { Server } from "socket.io";
 import {bikelightroute} from "@http/routers/bikelight.route";
 import { groupsrouter } from "../routers/groups.route";
 
