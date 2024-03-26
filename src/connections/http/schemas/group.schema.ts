@@ -1,5 +1,5 @@
 import * as yup from 'yup';
 
-export const CreateSchema = yup.object({
+export const CreateGroupSchema = yup.object({
     name: yup.string().required(),
 });

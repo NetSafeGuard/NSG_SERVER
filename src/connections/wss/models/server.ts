@@ -3,6 +3,7 @@ import { Server } from "socket.io";
 import { createServer } from "http";
 import { identify } from "../middlewares/identify.middleware";
 import { getUsers } from "@/connections/http/useCases/Accounts/Repository/account.repository";
+import {getGroups} from "@http/useCases/Groups/Repository/group.repository";
 
 export class SocketServer {
   public io: Server;
@@ -24,10 +25,14 @@ export class SocketServer {
     this.io.on("connection", async (socket) => {
       console.log("[🙌] Socket client connected");
 
-      socket.on("getUsers", () => {
+      socket.on("getData", () => {
         getUsers().then((users) => {
           socket.emit("users", users);
         });
+
+        getGroups().then((groups) => {
+          socket.emit("groups", groups)
+        })
       });
 
       socket.on("disconnect", () => {
