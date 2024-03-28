@@ -31,7 +31,7 @@ export const TokenMiddleware = (
         if (!newuser)
           return res.status(403).json({
             status: 403,
-            message: "Invalid Token",
+            message: "Account token was not found",
           });
 
         req.body.user = {
@@ -47,7 +47,7 @@ export const TokenMiddleware = (
   } else {
     res.status(401).json({
       status: 401,
-      message: "Missing Token",
+      message: "Token expired/not found",
     });
   }
 };
