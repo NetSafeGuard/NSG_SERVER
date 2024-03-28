@@ -6,12 +6,11 @@ import {
   getUsers,
   updateUser,
   deleteUser,
-  activeUser,
-  recoverUser,
+  activeUser
 } from "../Repository/account.repository";
 import bycrpt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { RevoveryTemplate } from "../../../templates/recovery.template";
+import { RevoveryTemplate } from "@http/templates/recovery.template";
 import { v4 } from "uuid";
 import { createToken } from "../../Tokens/Repository/token.repository";
 import { wss } from "@/index";
@@ -176,18 +175,8 @@ export const Delete = async (req: Request, res: Response) => {
 };
 
 export const Active = async (req: Request, res: Response) => {
-  const account = await getUserByEmailOrUsername(
-    req.body.user.email,
-    req.body.user.username
-  );
 
-  if (!account)
-    return res.status(400).json({
-      status: 400,
-      message: "Conta não existente!",
-    });
-
-  if (account.activated)
+  if (req.body.activated)
     return res.status(400).json({
       status: 400,
       message: "Conta já ativada!",
