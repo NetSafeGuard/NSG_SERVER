@@ -1,4 +1,3 @@
-import { wss } from "@/index";
 import jwt from "jsonwebtoken";
 import { getAccount } from "@http/useCases/Accounts/Repository/account.repository";
 import { Socket } from "socket.io";
