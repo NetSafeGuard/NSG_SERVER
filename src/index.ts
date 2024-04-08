@@ -14,8 +14,8 @@ transporter
     .then(() => {
         console.log("[📨] Ready to send emails!");
     })
-    .catch((err: any) => {
-        console.log(err);
+    .catch(() => {
+        console.log("[🤷‍♀️] Email service offline [localhost]");
     });
 
 process.on("unhandledRejection", (err) => {
