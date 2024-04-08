@@ -12,3 +12,9 @@ export const createGroup = async (name: string) => {
 };
 
 export const getGroups = async () => await prisma.group.findMany()
+
+export const deleteGroups = async (name: string) => await prisma.group.delete({
+    where: {
+        name
+    }
+})
