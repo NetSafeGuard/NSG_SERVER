@@ -12,4 +12,4 @@ export const groupsrouter = Router();
 groupsrouter.post("/", [TokenMiddleware, limiter(10,60000), PermissionMiddleware("ADMIN"), ValidateMiddleware(CreateGroupSchema)], Create);
 groupsrouter.delete("/",[TokenMiddleware, limiter(10,60000), PermissionMiddleware("ADMIN"), ValidateMiddleware(CreateGroupSchema)], Delete);
 // groupsrouter.put("/",[TokenMiddleware, limiter(10,60000), PermissionMiddleware("ADMIN"), ValidateMiddleware(EditGroupSchema)], Delete)
-groupsrouter.post('/student', [TokenMiddleware, limiter(10,60000), PermissionMiddleware("USER"), ValidateMiddleware(CreateStudentSchema)], StudentController.Create);
+groupsrouter.post('/student', [TokenMiddleware, limiter(10,60000), PermissionMiddleware(["ADMIN", "USER"]), ValidateMiddleware(CreateStudentSchema)], StudentController.Create);
