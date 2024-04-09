@@ -15,14 +15,6 @@ export const Create = (req: Request, res: Response) => {
     });
 }; 
 
-export const Get = (req: Request, res: Response) => {
-    getGroups().then((groups) => {
-        res.status(200).json({status: 200, groups});
-    }).catch(() => {
-        res.status(500).json({status: 500, message: "Erro interno do servidor"});
-    });
-}
-
 export const Update = async (req: Request, res: Response) => {
   
     // update function
