@@ -50,7 +50,7 @@ model Student {
   routerip String @unique
   code    String? @unique
   groupid Int
-  group Group @relation(fields: [groupid], references: [id])  
+  group Group @relation(fields: [groupid], references: [id], onDelete: Cascade)  
 }
 
 model Token {
