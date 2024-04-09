@@ -44,6 +44,7 @@ model Group {
 
 model Student {
   id       Int      @id @default(autoincrement())
+  studentid String
   name     String
   email   String
   routerip String
