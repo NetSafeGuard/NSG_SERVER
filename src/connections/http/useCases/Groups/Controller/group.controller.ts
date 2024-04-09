@@ -23,14 +23,18 @@ export const Get = (req: Request, res: Response) => {
     });
 }
 
-export const Del = (req: Request, res: Response) => {
+export const Update = async (req: Request, res: Response) => {
+  
+    // update function
+};
+
+export const Delete = (req: Request, res: Response) => {
     deleteGroups(req.body.name).then(() => {
         res.status(200).json({status: 200});
         getGroups().then((groups) => {
             wss.io.emit("groups", groups)
         })
-        
-    }).catch(() => {
+    }).catch((e) => {
         res.status(500).json({status: 500, message: "Erro interno do servidor"});
     });
 }
