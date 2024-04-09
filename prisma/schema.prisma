@@ -44,10 +44,10 @@ model Group {
 
 model Student {
   id       Int      @id @default(autoincrement())
-  studentid String
-  name     String
-  email   String
-  routerip String
+  studentid String @unique
+  name     String @unique
+  email   String @unique
+  routerip String @unique
   code    String? @unique
   groupid Int
   group Group @relation(fields: [groupid], references: [id])  
