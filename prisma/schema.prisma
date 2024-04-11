@@ -45,7 +45,7 @@ model Group {
 model Student {
   id       Int      @id @default(autoincrement())
   studentid String @unique
-  name     String @unique
+  name     String
   email   String @unique
   routerip String @unique
   code    String? @unique
