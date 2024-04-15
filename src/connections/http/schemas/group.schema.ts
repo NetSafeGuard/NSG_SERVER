@@ -11,3 +11,21 @@ export const CreateStudentSchema = yup.object({
     email: yup.string().required(),
     routerip: yup.string().required(),
 });
+
+export const EditStudentSchema = yup.object({
+    editedInputs: yup.array().of(yup.object({
+        key: yup.string().required(),
+        value: yup.string().required(),
+    })),
+    email: yup.string().required(),
+});
+
+export type EditStudent = {
+    editedInputs: EditStudent[],
+    email: string,
+};
+
+export type StudentEdited = {
+    key: string,
+    value: string,
+}
