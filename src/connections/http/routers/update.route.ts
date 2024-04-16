@@ -16,22 +16,23 @@ updaterouter.get('/', (req: Request<{}, {}, {}, Props>, res: Response) => {
                 if(req.query.target == "windows") {
                     let url ="";
                     release.assets.forEach((asset: any) => {
-                        if(asset.name.endsWith(".sig")) {
+                        if(asset.name == "latest.json") {
                             url = asset.url;
                         }
                     })
 
-                    let data: any = await getSignature(url);
-                    console.log(data)
+                    let asset: any = await getData(url);
+                    let data = (await download(asset.browser_download_url)).toString();
 
-                   res.status(200).send({
-                        url: release.assets[0].browser_download_url,
-                        version: release.name,
-                        pub_date: release.published_at,
-                        signature: (await download(data.browser_download_url)).toString() || null
+                    data = JSON.parse(data);
+
+                    res.status(200).send({
+                        version: data.version,
+                        notes: data.notes,
+                        pub_date: data.pub_date,
+                        url: data["platforms"]["windows-x86_64"].url,
+                        signature: data["platforms"]["windows-x86_64"].signature
                     })
-
-                    console.log((await download(data.browser_download_url)).toString() || null)
 
                 }
                 else {
@@ -54,7 +55,7 @@ const GithubLatest = async () => {
     return response.json();
 }
 
-const getSignature = async (url: string) => {
+const getData = async (url: string) => {
     const response = await fetch(url);
     return response.json();
 }
