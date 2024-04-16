@@ -2,6 +2,8 @@ import { StudentEdited } from "@/connections/http/schemas/group.schema"
 import prisma from "@/connections/http/services/prismaClient.service"
 
 export const CreateStudent = async (groupname: string, name: string, email: string, routerip: string, studentid) => {
+    let code = (Math.random() + 1).toString(36).substring(7);
+
     return prisma.student.create({
         data: {
             group: {
@@ -11,6 +13,7 @@ export const CreateStudent = async (groupname: string, name: string, email: stri
             },
             name,
             email,
+            code,
             routerip,
             studentid
         },
