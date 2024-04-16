@@ -7,6 +7,7 @@ import { tokenrouter } from "../routers/token.route";
 import { createServer } from "http";
 import {bikelightroute} from "@http/routers/bikelight.route";
 import { groupsrouter } from "../routers/groups.route";
+import { updaterouter } from "../routers/update.route";
 
 export class ExpressServer {
   public app: express.Application;
@@ -31,6 +32,7 @@ export class ExpressServer {
     this.app.set("view engine", "ejs");
     this.app.set("views", "./src/connections/http/views");
 
+    this.app.use("/api/v1/update", updaterouter);
     this.app.use("/api/v1/auth", authrouter);
     this.app.use("/api/v1/account", accountsrouter);
     this.app.use("/api/v1/activities", activityrouter);
