@@ -50,12 +50,33 @@ updaterouter.get('/', (req: Request<{}, {}, {}, Props>, res: Response) => {
     }
 });
 
-const GithubLatest = async () => {
-    const response = await fetch("https://api.github.com/repos/NetSafeGuard/NSG_ADMIN/releases/latest");
-    return response.json();
+interface Options {
+    method?: string;
+    headers?: {
+        Authorization: string;
+    };
 }
 
-const getData = async (url: string) => {
-    const response = await fetch(url);
+const fetchWithToken = async (url, options?: Options | null) => {
+    const token = process.env.GH_TOKEN;
+    if (!token) {
+        throw new Error('GitHub token not found in environment variables.');
+    }
+    
+    const headers = {
+        Authorization: `token ${token}`,
+        ...options.headers
+    };
+
+    const response = await fetch(url, { ...options, headers });
     return response.json();
-}
+};
+
+const GithubLatest = async () => {
+    const url = "https://api.github.com/repos/NetSafeGuard/NSG_ADMIN/releases/latest";
+    return fetchWithToken(url);
+};
+
+const getData = async (url) => {
+    return fetchWithToken(url);
+};
