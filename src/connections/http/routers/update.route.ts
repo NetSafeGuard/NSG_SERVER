@@ -57,7 +57,7 @@ interface Options {
     };
 }
 
-const fetchWithToken = async (url, options?: Options | null) => {
+const fetchWithToken = async (url: string, options?: Options | null) => {
     const token = process.env.GH_TOKEN;
     if (!token) {
         throw new Error('GitHub token not found in environment variables.');
@@ -65,7 +65,6 @@ const fetchWithToken = async (url, options?: Options | null) => {
     
     const headers = {
         Authorization: `token ${token}`,
-        ...options.headers
     };
 
     const response = await fetch(url, { ...options, headers });
@@ -77,6 +76,6 @@ const GithubLatest = async () => {
     return fetchWithToken(url);
 };
 
-const getData = async (url) => {
+const getData = async (url: string) => {
     return fetchWithToken(url);
 };
