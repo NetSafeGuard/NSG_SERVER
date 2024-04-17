@@ -20,6 +20,10 @@ export const EditStudentSchema = yup.object({
     email: yup.string().required(),
 });
 
+export const DeleteStudentSchema = yup.object({
+    email: yup.string().required(),
+});
+
 export type EditStudent = {
     editedInputs: EditStudent[],
     email: string,

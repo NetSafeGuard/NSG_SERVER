@@ -32,3 +32,11 @@ export const EditStudent = async (editedInputs: StudentEdited[], email: string) 
         data
     })
 }
+
+export const DeleteStudent = async (email: string) => {
+    return prisma.student.delete({
+        where: {
+            email
+        }
+    })
+}
