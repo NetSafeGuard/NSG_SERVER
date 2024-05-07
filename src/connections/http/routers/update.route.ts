@@ -6,11 +6,10 @@ export const updaterouter = Router();
 interface Props {
     current_version: string;
     target: string;
-    arch: string;
 }
 
 updaterouter.get('/', (req: Request<{}, {}, {}, Props>, res: Response) => {
-    if(req.query.current_version && req.query.target && req.query.arch) {
+    if(req.query.current_version && req.query.target) {
         GithubLatest().then(async (release: any) => {
             if(release.name !== req.query.current_version) {
                 if(req.query.target == "windows") {
