@@ -6,7 +6,7 @@ import {
   LoginSchema,
   AccountActive,
   AccountRecover,
-} from "../schemas/account.schemas";
+} from "../schemas/account.schema";
 import { TokenMiddleware } from "../middlewares/token.middleware";
 
 export const authrouter = Router();

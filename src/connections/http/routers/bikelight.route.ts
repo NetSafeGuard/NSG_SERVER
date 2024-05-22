@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {BikeLightWebhook} from "@http/schemas/bikelight.schemas";
+import {BikeLightWebhook} from "@/connections/http/schemas/bikelight.schema";
 import {ValidateMiddleware} from "@http/middlewares/validate.middleware";
 import { limiter } from "../middlewares/ratelimit.middleware";
 
