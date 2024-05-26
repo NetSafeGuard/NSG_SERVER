@@ -13,6 +13,6 @@ activityrouter.post(
         limiter(6, 60000),
         ValidateMiddleware(CreateActivitySchema),
         PermissionMiddleware(["ADMIN", "USER"])
-    ], 
+    ],
     activityController.Create
 );
