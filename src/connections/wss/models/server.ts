@@ -26,13 +26,10 @@ export class SocketServer {
       console.log("[🙌] Socket client connected");
 
       socket.on("getData", () => {
-        getUsers().then((users) => {
+        Promise.all([getUsers(), getGroups()]).then(([users, groups]) => {
           socket.emit("users", users);
+          socket.emit("groups", groups);
         });
-
-        getGroups().then((groups) => {
-          socket.emit("groups", groups)
-        })
       });
 
       socket.on("disconnect", () => {
