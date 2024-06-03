@@ -1,4 +1,13 @@
+import { emit } from "process";
 import * as yup from "yup";
+
+export const LoggedUser = yup.object({
+    email: yup.string().required(),
+    username: yup.string().required(),
+    role: yup.string().required(),
+    avatar: yup.string().required(),
+    activated: yup.boolean().required(),
+});
 
 export const LoginSchema = yup.object({
     username: yup.string().required(),
