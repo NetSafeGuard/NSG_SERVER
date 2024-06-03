@@ -4,6 +4,7 @@ import { ValidateMiddleware } from "../middlewares/validate.middleware";
 import { CreateActivitySchema } from "../schemas/activity.schema";
 import { limiter } from "../middlewares/ratelimit.middleware";
 import { PermissionMiddleware } from "../middlewares/permission.middleware";
+import { TokenMiddleware } from "../middlewares/token.middleware";
 
 export const activityrouter = Router();
 
@@ -11,6 +12,7 @@ activityrouter.post(
     "/",
     [
         limiter(6, 60000),
+        TokenMiddleware,
         ValidateMiddleware(CreateActivitySchema),
         PermissionMiddleware(["ADMIN", "USER"])
     ],
