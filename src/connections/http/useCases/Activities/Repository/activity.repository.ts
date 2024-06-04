@@ -29,3 +29,6 @@ export const createActivity = async (data: InferType<typeof CreateActivitySchema
         }
     });
 };
+
+
+export const getActivities = async () => await prisma.activity.findMany();    
