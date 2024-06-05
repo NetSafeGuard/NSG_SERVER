@@ -1,13 +1,14 @@
 import { server as express_server } from "@/index";
 import { Server } from "socket.io";
-import { createServer } from "http";
+import { createServer, type Server as serverType } from "node:http";
 import { identify } from "../middlewares/identify.middleware";
 import { getUsers } from "@/connections/http/useCases/Accounts/Repository/account.repository";
 import {getGroups} from "@http/useCases/Groups/Repository/group.repository";
+import { getActivities } from "@/connections/http/useCases/Activities/Repository/activity.repository";
 
 export class SocketServer {
   public io: Server;
-  public server: any;
+  public server: serverType
 
   constructor() {
     this.server = createServer(express_server.app);
@@ -26,9 +27,10 @@ export class SocketServer {
       console.log("[🙌] Socket client connected");
 
       socket.on("getData", () => {
-        Promise.all([getUsers(), getGroups()]).then(([users, groups]) => {
+        Promise.all([getUsers(), getGroups(), getActivities()]).then(([users, groups, activities]) => {
           socket.emit("users", users);
           socket.emit("groups", groups);
+          socket.emit("activities", activities);
         });
       });
 

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import * as Repo from '../Repository/activity.repository';
 
 export const Create = async (req: Request, res: Response) => {

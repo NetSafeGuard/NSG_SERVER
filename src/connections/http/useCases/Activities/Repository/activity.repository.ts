@@ -1,10 +1,10 @@
-import { LoggedUser } from "@/connections/http/schemas/account.schema";
-import { CreateActivitySchema } from "@/connections/http/schemas/activity.schema";
+import type { LoggedUser } from "@/connections/http/schemas/account.schema";
+import type { CreateActivitySchema } from "@/connections/http/schemas/activity.schema";
 import prisma from "@/connections/http/services/prismaClient.service";
-import { InferType } from "yup";
+import type { InferType } from "yup";
 
 export const createActivity = async (data: InferType<typeof CreateActivitySchema>, creator: InferType<typeof LoggedUser>) => {
-    let code = (Math.random() + 1).toString(36).substring(7);
+    const code = (Math.random() + 1).toString(36).substring(7);
 
     return prisma.activity.create({
         data: {
