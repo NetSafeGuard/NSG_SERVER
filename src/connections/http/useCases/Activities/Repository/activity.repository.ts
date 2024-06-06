@@ -10,9 +10,9 @@ export const createActivity = async (data: InferType<typeof CreateActivitySchema
         data: {
             title: data.title,
             description: data.description,
-            startDate: data.startdate,
+            startDate: data.startDate,
             redirectUrl: data.redirectUrl,
-            endDate: data.enddate,
+            endDate: data.endDate,
             creator: {
                 connect: {
                     email: creator.email,

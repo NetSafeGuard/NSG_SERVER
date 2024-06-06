@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { createGroup, getGroups, deleteGroups } from '../Repository/group.repository';
 import {wss} from "@/index";
 
