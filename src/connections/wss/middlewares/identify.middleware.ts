@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { getAccount } from "@http/useCases/Accounts/Repository/account.repository";
-import { Socket } from "socket.io";
+import type { Socket } from "socket.io";
 
 export const identify = (socket: Socket, next: any) => {
   const token = socket.handshake.query.token;

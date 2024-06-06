@@ -24,7 +24,7 @@ export class SocketServer {
     this.io.use(identify);
 
     this.io.on("connection", async (socket) => {
-      console.log("[🙌] Socket client connected");
+      console.log(`[🙌] Socket client connected: ${socket.data.username}`);
 
       socket.on("getData", () => {
         Promise.all([getUsers(), getGroups(), getActivities()]).then(([users, groups, activities]) => {
