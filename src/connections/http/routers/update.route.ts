@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, type Request, type Response } from "express";
 import download from 'download';
 
 export const updaterouter = Router();
@@ -8,29 +8,43 @@ interface Props {
     target: string;
 }
 
+interface Data {
+    version: string;
+    notes: string;
+    pub_date: string;
+    url: string;
+    signature: string;
+    platforms: Platform;
+}
+
+interface Platform {
+    url: string;
+    signature: string;
+}
+
+// biome-ignore lint/complexity/noBannedTypes: <explanation>
 updaterouter.get('/', (req: Request<{}, {}, {}, Props>, res: Response) => {
     if(req.query.current_version && req.query.target) {
         GithubLatest().then(async (release: any) => {
             if(release.name !== req.query.current_version) {
-                if(req.query.target == "windows") {
+                if(req.query.target === "windows") {
                     let url ="";
-                    release.assets.forEach((asset: any) => {
-                        if(asset.name == "latest.json") {
+
+                    for(const asset of release.assets) {
+                        if(asset.name === "latest.json") {
                             url = asset.url;
                         }
-                    })
+                    }
 
-                    let asset: any = await getData(url);
-                    let data = (await download(asset.browser_download_url)).toString();
-
-                    data = JSON.parse(data);
+                    const asset: any = await getData(url);
+                    const data: Data = JSON.parse((await download(asset.browser_download_url)).toString());
 
                     res.status(200).send({
                         version: data.version,
                         notes: data.notes,
                         pub_date: data.pub_date,
-                        url: data["platforms"]["windows-x86_64"].url,
-                        signature: data["platforms"]["windows-x86_64"].signature
+                        url: data.platforms["windows-x86_64"].url,
+                        signature: data.platforms["windows-x86_64"].signature
                     })
 
                 }
