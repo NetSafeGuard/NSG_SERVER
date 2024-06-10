@@ -1,7 +1,7 @@
 import { StudentEdited } from "@/connections/http/schemas/group.schema"
 import prisma from "@/connections/http/services/prismaClient.service"
 
-export const CreateStudent = async (groupname: string, name: string, email: string, routerip: string, studentid) => {
+export const CreateStudent = async (groupname: string, name: string, email: string, routerip: string, studentid: string) => {
     let code = (Math.random() + 1).toString(36).substring(7);
 
     return prisma.student.create({

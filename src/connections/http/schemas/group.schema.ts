@@ -9,7 +9,6 @@ export const CreateStudentSchema = yup.object({
     name: yup.string().required(),
     studentid: yup.string().required(),
     email: yup.string().required(),
-    routerip: yup.string().required(),
 });
 
 export const EditStudentSchema = yup.object({

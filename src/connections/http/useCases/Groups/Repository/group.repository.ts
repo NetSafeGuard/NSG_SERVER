@@ -13,7 +13,7 @@ export const createGroup = async (name: string) => {
 
 export const getGroups = async () => await prisma.group.findMany({
     include: {
-        students: true
+      students: true
     }
 })
 

@@ -6,5 +6,5 @@ export const CreateActivitySchema = yup.object().shape({
     startDate: yup.date().required(),
     endDate: yup.date().required(),
     groups: yup.array().of(yup.string()).required(),
-    redirectUrl: yup.string().optional(),
+    redirectUrl: yup.string().required()
 });

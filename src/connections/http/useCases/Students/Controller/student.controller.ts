@@ -10,7 +10,7 @@ export const Create = async (req: Request, res: Response) => {
             wss.io.emit("groups", groups)
         })
     }).catch((e) => {
-        console.log(e.code)
+        console.log(e)
         if(e.code == "P2002") return res.status(400).json({status: 400, message: "Esse estudante já está inserido!"});
 
         res.status(500).json({status: 500, message: "Erro interno do servidor"});

@@ -36,7 +36,7 @@ model Activity {
 
 model Group {
   id       Int     @id @default(autoincrement())
-  name     String @unique 
+  name     String @unique
   code    String @unique
   activities    Activity[]
   createdAt DateTime @default(now())
@@ -48,10 +48,9 @@ model Student {
   studentid String @unique
   name     String
   email   String @unique
-  routerip String @unique
   code    String? @unique
   groupid Int
-  group Group @relation(fields: [groupid], references: [id], onDelete: Cascade)  
+  group Group @relation(fields: [groupid], references: [id], onDelete: Cascade)
 }
 
 model Token {
