@@ -31,4 +31,19 @@ export const createActivity = async (data: InferType<typeof CreateActivitySchema
 };
 
 
-export const getActivities = async () => await prisma.activity.findMany();    
+export const getActivities = async () => await prisma.activity.findMany({
+    select: {
+        id: true,
+        title: true,
+        description: true,
+        startDate: true,
+        endDate: true,
+        redirectUrl: true,
+        creator: {
+            select: {
+                username: true,
+                email: true,
+            }
+        }
+    }
+});    

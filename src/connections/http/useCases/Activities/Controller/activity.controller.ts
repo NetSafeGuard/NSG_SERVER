@@ -19,6 +19,9 @@ export const Create = async (req: Request, res: Response) => {
 
         res.status(200).json({status: 200, message: "Atividade criada com sucesso"});
     }).catch((err) => {
-        res.status(500).json({status: 500, message: "Erro interno do servidor"});
+        res.status(500).json({status: 500, message: "Erro interno do servidor [Code: 1]"});
     });
+}
+
+export const Delete = async (req: Request, res: Response) => {
 }
