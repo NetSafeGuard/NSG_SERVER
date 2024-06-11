@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import {
   createUser,
   getAccount,
@@ -116,7 +116,7 @@ export const Update = async (req: Request, res: Response) => {
 
   const newaccount = await getUserByEmailOrUsername(req.body.email, "");
 
-  if (newaccount && newaccount.email != req.body.old_email)
+  if (newaccount && newaccount.email !== req.body.old_email)
     return res.status(400).json({
       status: 400,
       message: "Já existe uma conta com esse email ou nome de utilizador!",

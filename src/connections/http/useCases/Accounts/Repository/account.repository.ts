@@ -1,7 +1,7 @@
 import { v4 } from "uuid";
 import prisma from "../../../services/prismaClient.service";
 import bycrpt from "bcryptjs";
-import { Role } from "@prisma/client";
+import type { Role } from "@prisma/client";
 
 export const getAccount = async (account: string) => {
     const user = await prisma.user.findFirst({
