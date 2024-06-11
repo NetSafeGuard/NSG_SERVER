@@ -37,6 +37,7 @@ export const getActivities = async () => await prisma.activity.findMany({
         title: true,
         description: true,
         startDate: true,
+        domains: true,
         endDate: true,
         redirectUrl: true,
         creator: {
