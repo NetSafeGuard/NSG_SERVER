@@ -45,6 +45,32 @@ export const getActivities = async () => await prisma.activity.findMany({
                 username: true,
                 email: true,
             }
-        }
+        },
     }
 });    
+
+export const getActivity = async (id: number) => {
+    return prisma.activity.findUnique({
+        where: {
+            id: id,
+        },
+        include: {
+            domains: true
+        }
+    });
+}
+
+export const AddDomainActivity = async (data: InferType<typeof AddDomainActivity>) => {
+    return prisma.activity.update({
+        where: {
+            id: data.activity_id
+        },
+        data: {
+            domains: {
+                create: {
+                    name: data.name
+                }
+            }
+        }
+    });
+}

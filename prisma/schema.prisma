@@ -31,7 +31,14 @@ model Activity {
   code String
   redirectUrl String
   groups    Group[]
-  domains Json @default("[]")
+  domains    Domain[]
+  createdAt DateTime @default(now())
+}
+
+model Domain {
+  id       Int      @id @default(autoincrement())
+  name     String
+  activities    Activity[]
   createdAt DateTime @default(now())
 }
 

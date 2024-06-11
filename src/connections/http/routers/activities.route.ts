@@ -18,3 +18,14 @@ activityrouter.post(
     ],
     activityController.Create
 );
+
+activityrouter.put(
+    "/domain",
+    [
+        limiter(6, 60000), 
+        TokenMiddleware, 
+        PermissionMiddleware(["ADMIN", "USER"])
+    ],
+
+    activityController.AddDomain
+)

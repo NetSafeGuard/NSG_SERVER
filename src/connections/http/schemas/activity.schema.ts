@@ -8,3 +8,8 @@ export const CreateActivitySchema = yup.object().shape({
     groups: yup.array().of(yup.string()).required(),
     redirectUrl: yup.string().required()
 });
+
+export const AddDomainActivity = yup.object().shape({
+    activity_id: yup.number().required(),
+    name: yup.string().required()
+});

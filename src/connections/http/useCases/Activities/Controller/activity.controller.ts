@@ -25,3 +25,23 @@ export const Create = async (req: Request, res: Response) => {
 
 export const Delete = async (req: Request, res: Response) => {
 }
+
+
+
+export const AddDomain = async (req: Request, res: Response) => {
+    const data = await Repo.getActivity(req.body.activity_id);
+
+    if (!data) {
+        res.status(404).json({status: 404, message: "Atividade não encontrada"});
+        return;
+    }
+
+    Repo.AddDomainActivity({activity_id: req.body.activity_id,name: req.body.name}).then(() => {
+        res.status(200).json({status: 200, message: "Domínio adicionado com sucesso"});
+        Repo.getActivities().then((activities) => {
+            wss.io.emit("activities", activities)
+        })
+    }).catch((err) => {
+        res.status(500).json({status: 500, message: "Erro interno do servidor [Code: 2]"});
+    });
+}
