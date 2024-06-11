@@ -31,7 +31,7 @@ model Activity {
   code String
   redirectUrl String
   groups    Group[]
-  domain Json
+  domains Json
   createdAt DateTime @default(now())
 }
 
