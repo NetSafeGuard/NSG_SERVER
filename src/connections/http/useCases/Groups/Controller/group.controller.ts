@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { createGroup, getGroups, deleteGroups } from '../Repository/group.repository';
+import { createGroup, getGroups, deleteGroups, editGroups } from '../Repository/group.repository';
 import {wss} from "@/index";
 
 export const Create = (req: Request, res: Response) => {
@@ -16,8 +16,14 @@ export const Create = (req: Request, res: Response) => {
 }; 
 
 export const Update = async (req: Request, res: Response) => {
-  
-    // update function
+    editGroups(req.body.old_name, req.body.new_name).then(() => {
+        res.status(200).json({status: 200, message: "Grupo atualizado com sucesso"});
+        getGroups().then((groups) => {
+            wss.io.emit("groups", groups)
+        })
+    }).catch((e) => {
+        res.status(500).json({status: 500, message: "Erro interno do servidor"});
+    });
 };
 
 export const Delete = (req: Request, res: Response) => {

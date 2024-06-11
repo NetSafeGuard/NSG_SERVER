@@ -4,6 +4,11 @@ export const CreateGroupSchema = yup.object({
     name: yup.string().required(),
 });
 
+export const EditGroupSchema = yup.object({
+    old_name: yup.string().required(),
+    new_name: yup.string().required(),
+});
+
 export const CreateStudentSchema = yup.object({
     groupname: yup.string().required(),
     name: yup.string().required(),
