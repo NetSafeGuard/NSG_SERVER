@@ -41,7 +41,7 @@ updaterouter.get('/', (req: Request<{}, {}, {}, Props>, res: Response) => {
 
                     res.status(200).send({
                         version: data.version,
-                        notes: data.notes,
+                        notes: release.body,
                         pub_date: data.pub_date,
                         url: data.platforms["windows-x86_64"].url,
                         signature: data.platforms["windows-x86_64"].signature
