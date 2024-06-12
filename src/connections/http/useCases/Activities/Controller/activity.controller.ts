@@ -35,7 +35,6 @@ export const Delete = async (req: Request, res: Response) => {
 }
 
 
-
 export const AddDomain = async (req: Request, res: Response) => {
     const data = await Repo.getActivity(req.body.activity_id);
 
@@ -55,6 +54,30 @@ export const AddDomain = async (req: Request, res: Response) => {
             wss.io.emit("activities", activities)
         })
     }).catch((err) => {
-        res.status(500).json({status: 500, message: "Erro interno do servidor [Code: 2]"});
+        res.status(500).json({status: 500, message: "Erro interno do servidor [Code: 3]"});
+    });
+}
+
+export const EditDomain = async (req: Request, res: Response) => {
+
+    Repo.EditDomainFromActivity(req.body.domain_id, req.body.name).then(() => {
+        res.status(200).json({status: 200, message: "Domínio editado com sucesso"});
+        Repo.getActivities().then((activities) => {
+            wss.io.emit("activities", activities)
+        })
+    }).catch((err) => {
+        res.status(500).json({status: 500, message: "Erro interno do servidor [Code: 4]"});
+    });
+};
+
+export const DeleteDomain = async (req: Request, res: Response) => {
+    Repo.DeleteDomainFromActivity(req.body.domain_id).then(() => {
+        res.status(200).json({status: 200, message: "Domínio apagado com sucesso"});
+        Repo.getActivities().then((activities) => {
+            wss.io.emit("activities", activities)
+        })
+    }).catch((err) => {
+        console.log(err)
+        res.status(500).json({status: 500, message: "Erro interno do servidor [Code: 5]"});
     });
 }

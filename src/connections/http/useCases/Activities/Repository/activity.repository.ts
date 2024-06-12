@@ -41,7 +41,8 @@ export const getActivities = async () => await prisma.activity.findMany({
             select: {
                 domain: {
                     select: {
-                        name: true
+                        name: true,
+                        id: true
                     }
                 }
             }
@@ -68,6 +69,7 @@ export const getActivity = async (id: number) => {
                     domain: {
                         select: {
                             name: true,
+                            id: true
                         },
                     },
                 },
@@ -103,6 +105,31 @@ export const AddDomainToActivity = async (data: InferType<typeof AddDomainActivi
                     domainId: new_domain.id,
                 }
             }
+        }
+    });
+}
+
+export const EditDomainFromActivity = async (domain_id: number, name: string) => {
+    return prisma.domain.update({
+        where: {
+            id: domain_id
+        },
+        data: {
+            name: name
+        }
+    })
+};
+
+export const DeleteDomainFromActivity = async (domain_id: number) => {
+    await prisma.activityDomain.deleteMany({
+        where: {
+            domainId: domain_id
+        }
+    })
+
+    return prisma.domain.delete({
+        where: {
+            id: domain_id
         }
     });
 }
