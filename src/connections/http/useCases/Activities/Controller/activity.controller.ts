@@ -24,6 +24,14 @@ export const Create = async (req: Request, res: Response) => {
 }
 
 export const Delete = async (req: Request, res: Response) => {
+    Repo.DeleteActivity(req.body.id).then(() => {
+        res.status(200).json({status: 200, message: "Atividade apagada com sucesso"});
+        Repo.getActivities().then((activities) => {
+            wss.io.emit("activities", activities)
+        })
+    }).catch((err) => {
+        res.status(500).json({status: 500, message: "Erro interno do servidor [Code: 2]"});
+    });
 }
 
 

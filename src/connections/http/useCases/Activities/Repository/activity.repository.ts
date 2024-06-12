@@ -60,6 +60,15 @@ export const getActivity = async (id: number) => {
     });
 }
 
+export const DeleteActivity = async (id: number) => {
+
+    return prisma.activity.delete({
+        where: {
+            id: id
+        }
+    });
+}
+
 export const AddDomainActivity = async (data: InferType<typeof AddDomainActivity>) => {
     return prisma.activity.update({
         where: {

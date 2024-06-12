@@ -1,4 +1,3 @@
-import { emit } from "process";
 import * as yup from "yup";
 
 export const LoggedUser = yup.object({

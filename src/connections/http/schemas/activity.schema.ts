@@ -13,3 +13,7 @@ export const AddDomainActivity = yup.object().shape({
     activity_id: yup.number().required(),
     name: yup.string().required()
 });
+
+export const DeleteActivity = yup.object().shape({
+    id: yup.number().required()
+});
