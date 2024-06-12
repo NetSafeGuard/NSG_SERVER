@@ -112,7 +112,7 @@ export const recoverUser = async (email: string) => {
 
 	const password = bycrpt.hashSync(token, 10);
 
-	const newUser = await prisma.user.update({
+	await prisma.user.update({
 		where: {
 			email,
 		},
