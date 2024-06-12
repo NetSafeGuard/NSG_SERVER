@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import { deleteToken, getToken } from '../Repository/token.repository';
 import { recoverUser } from '../../Accounts/Repository/account.repository';
 

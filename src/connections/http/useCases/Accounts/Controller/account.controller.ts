@@ -11,8 +11,7 @@ import {
 import bycrpt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { RevoveryTemplate } from "@http/templates/recovery.template";
-import { v4 } from "uuid";
-import { createToken } from "../../Tokens/Repository/token.repository";
+import { createToken, getAllTokens } from "../../Tokens/Repository/token.repository";
 import { wss } from "@/index";
 
 export const Login = async (req: Request, res: Response) => {
@@ -198,13 +197,18 @@ export const Active = async (req: Request, res: Response) => {
 export const Recover = async (req: Request, res: Response) => {
   const getAccount = await getUserByEmailOrUsername(req.body.email, "");
 
-  if (!getAccount)
-    return res.status(400).json({
-      status: 400,
-      message: "Conta não existente!",
-    });
+  if (!getAccount) return res.status(400).json({
+    status: 400,
+    message: "Conta não existente!",
+  });
 
-  const token = v4();
+  const tokens = await getAllTokens();
+
+  let token = generateStringCode();
+
+  while (tokens.find((t) => t.token === token)) {
+    token = generateStringCode();
+  }
 
   await createToken(token, req.body.email);
 
@@ -216,3 +220,16 @@ export const Recover = async (req: Request, res: Response) => {
     message: "Email enviado com sucesso!",
   });
 };
+
+function generateStringCode() {
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  let code = "";
+
+  for (let i = 0; i < 5; i++) {
+    code += letters.charAt(Math.floor(Math.random() * letters.length));
+  }
+
+
+  return code;
+}

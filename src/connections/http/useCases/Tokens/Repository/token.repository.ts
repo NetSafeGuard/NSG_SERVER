@@ -34,3 +34,9 @@ export const deleteToken = async (email: string) => {
     },
   });
 };
+
+export const getAllTokens = async () => {
+  const tokens = await prisma.token.findMany();
+
+  return tokens;
+};

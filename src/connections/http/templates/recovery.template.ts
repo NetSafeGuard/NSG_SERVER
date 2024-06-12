@@ -2,7 +2,7 @@ import { EmailTemplate } from "../models/email.model";
 
 export class RevoveryTemplate extends EmailTemplate {
   constructor(email: string, token: string) {
-    const url = process.env.DEV == "true" ? "http://localhost:3000" : "https://api.netsafeguard.cloud";
+    const url = process.env.DEV === "true" ? "http://localhost:3000" : "https://api.netsafeguard.cloud";
     super(
         "Recuperação de Conta",
         `
@@ -29,7 +29,7 @@ export class RevoveryTemplate extends EmailTemplate {
                         <p style="color: #555555; text-align: center;">Se você não solicitou a recuperação de senha, por favor, ignore este email.</p>
                 
                         <p style="color: #555555; text-align: center;">Atenciosamente,</p>
-                        <p style="color: #007bff; text-align: center; font-weight: bold;">Equipe NetSafeGuard</p>
+                        <p style="color: #007bff; text-align: center; font-weight: bold;">Equipa NetSafeGuard</p>
                     </div>
                 </body>
             </html>
