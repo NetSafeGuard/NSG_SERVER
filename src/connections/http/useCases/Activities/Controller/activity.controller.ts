@@ -44,7 +44,12 @@ export const AddDomain = async (req: Request, res: Response) => {
         return;
     }
 
-    Repo.AddDomainActivity({activity_id: req.body.activity_id,name: req.body.name}).then(() => {
+    if(data.activityDomains.find((data) => data.domain.name === req.body.name)){
+        res.status(400).json({status: 400, message: "Domínio já adicionado"});
+        return;
+    }
+
+    Repo.AddDomainToActivity({activity_id: req.body.activity_id,name: req.body.name}).then(() => {
         res.status(200).json({status: 200, message: "Domínio adicionado com sucesso"});
         Repo.getActivities().then((activities) => {
             wss.io.emit("activities", activities)

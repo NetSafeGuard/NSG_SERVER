@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,62 +8,73 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  username String   @unique
-  email     String   @unique
-  password  String
-  activated Boolean @default(false)
-  avatar  String  @default("Nenhum Definido")
-  role Role @default(USER)
-  activities    Activity[]
-  createdAt DateTime @default(now())
+  id         Int        @id @default(autoincrement())
+  username   String     @unique
+  email      String     @unique
+  password   String
+  activated  Boolean    @default(false)
+  avatar     String     @default("Nenhum Definido")
+  role       Role       @default(USER)
+  activities Activity[]
+  createdAt  DateTime   @default(now())
 }
 
 model Activity {
-  id       Int      @id @default(autoincrement())
-  userId   Int
-  creator     User     @relation(fields: [userId], references: [id])
-  title     String
-  description String
-  startDate    DateTime
-  endDate     DateTime
-  code String
-  redirectUrl String
-  groups    Group[]
-  domains    Domain[]
-  createdAt DateTime @default(now())
+  id              Int              @id @default(autoincrement())
+  userId          Int
+  creator         User             @relation(fields: [userId], references: [id])
+  title           String
+  description     String
+  startDate       DateTime
+  endDate         DateTime
+  code            String
+  redirectUrl     String
+  groups          Group[]
+  activityDomains ActivityDomain[]
+  createdAt       DateTime         @default(now())
 }
 
 model Domain {
-  id       Int      @id @default(autoincrement())
-  name     String
-  activities    Activity[]
-  createdAt DateTime @default(now())
+  id             Int              @id @default(autoincrement())
+  name           String
+  createdAt      DateTime         @default(now())
+  ActivityDomain ActivityDomain[]
+}
+
+model ActivityDomain {
+  id         Int      @id @default(autoincrement())
+  activityId Int
+  domainId   Int
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  domain     Domain   @relation(fields: [domainId], references: [id])
+  createdAt  DateTime @default(now())
+
+  @@unique([activityId, domainId])
 }
 
 model Group {
-  id       Int     @id @default(autoincrement())
-  name     String @unique
-  code    String @unique
-  activities    Activity[]
-  createdAt DateTime @default(now())
-  students Student[]
+  id         Int        @id @default(autoincrement())
+  name       String     @unique
+  code       String     @unique
+  activities Activity[]
+  createdAt  DateTime   @default(now())
+  students   Student[]
 }
 
 model Student {
-  id       Int      @id @default(autoincrement())
-  studentid String @unique
-  name     String
-  email   String @unique
-  code    String? @unique
-  groupid Int
-  group Group @relation(fields: [groupid], references: [id], onDelete: Cascade)
+  id        Int     @id @default(autoincrement())
+  studentid String  @unique
+  name      String
+  email     String  @unique
+  code      String? @unique
+  groupid   Int
+  group     Group   @relation(fields: [groupid], references: [id], onDelete: Cascade)
 }
 
 model Token {
-  id       Int      @id @default(autoincrement())
-  token    String   @unique
-  email   String
+  id    Int    @id @default(autoincrement())
+  token String @unique
+  email String
 }
 
 enum Role {

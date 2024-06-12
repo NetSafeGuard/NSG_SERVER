@@ -1,5 +1,5 @@
 import type { LoggedUser } from "@/connections/http/schemas/account.schema";
-import type { CreateActivitySchema } from "@/connections/http/schemas/activity.schema";
+import type { AddDomainActivity, CreateActivitySchema } from "@/connections/http/schemas/activity.schema";
 import prisma from "@/connections/http/services/prismaClient.service";
 import type { InferType } from "yup";
 
@@ -37,7 +37,15 @@ export const getActivities = async () => await prisma.activity.findMany({
         title: true,
         description: true,
         startDate: true,
-        domains: true,
+        activityDomains: {
+            select: {
+                domain: {
+                    select: {
+                        name: true
+                    }
+                }
+            }
+        },
         endDate: true,
         redirectUrl: true,
         creator: {
@@ -55,7 +63,15 @@ export const getActivity = async (id: number) => {
             id: id,
         },
         include: {
-            domains: true
+            activityDomains: {
+                select: {
+                    domain: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                },
+            },
         }
     });
 }
@@ -69,15 +85,22 @@ export const DeleteActivity = async (id: number) => {
     });
 }
 
-export const AddDomainActivity = async (data: InferType<typeof AddDomainActivity>) => {
+export const AddDomainToActivity = async (data: InferType<typeof AddDomainActivity>) => {
+
+    const new_domain = await prisma.domain.create({
+        data: {
+            name: data.name
+        }
+    });
+
     return prisma.activity.update({
         where: {
             id: data.activity_id
         },
         data: {
-            domains: {
+            activityDomains: {
                 create: {
-                    name: data.name
+                    domainId: new_domain.id,
                 }
             }
         }
