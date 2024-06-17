@@ -27,7 +27,7 @@ model Activity {
   description     String
   startDate       DateTime
   endDate         DateTime
-  code            String
+  code            String @unique
   redirectUrl     String
   groups          Group[]
   activityDomains ActivityDomain[]
