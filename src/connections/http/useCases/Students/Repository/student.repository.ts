@@ -1,8 +1,8 @@
-import { StudentEdited } from "@/connections/http/schemas/group.schema"
+import type { StudentEdited } from "@/connections/http/schemas/group.schema"
 import prisma from "@/connections/http/services/prismaClient.service"
 
-export const CreateStudent = async (groupname: string, name: string, email: string, routerip: string, studentid: string) => {
-    let code = (Math.random() + 1).toString(36).substring(7);
+export const CreateStudent = async (groupname: string, name: string, email: string, studentid: string) => {
+    const code = (Math.random() + 1).toString(36).substring(7);
 
     return prisma.student.create({
         data: {
@@ -14,7 +14,6 @@ export const CreateStudent = async (groupname: string, name: string, email: stri
             name,
             email,
             code,
-            routerip,
             studentid
         },
     })
