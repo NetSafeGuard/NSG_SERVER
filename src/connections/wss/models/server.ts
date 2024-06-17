@@ -1,46 +1,96 @@
-import { server as express_server } from "@/index";
-import { Server } from "socket.io";
-import { createServer, type Server as serverType } from "node:http";
-import { identify } from "../middlewares/identify.middleware";
-import { getUsers } from "@/connections/http/useCases/Accounts/Repository/account.repository";
-import {getGroups} from "@http/useCases/Groups/Repository/group.repository";
-import { getActivities } from "@/connections/http/useCases/Activities/Repository/activity.repository";
+import { server as express_server } from '@/index';
+import { Server } from 'socket.io';
+import { createServer, type Server as serverType } from 'node:http';
+import { identify } from '../middlewares/identify.middleware';
+import { getUsers } from '@/connections/http/useCases/Accounts/Repository/account.repository';
+import { getGroups } from '@http/useCases/Groups/Repository/group.repository';
+import {
+	getActivities,
+	getActivityByCode,
+} from '@/connections/http/useCases/Activities/Repository/activity.repository';
+import { getStudentByCode } from '@/connections/http/useCases/Students/Repository/student.repository';
 
 export class SocketServer {
-  public io: Server;
-  public server: serverType
+	public io: Server;
+	public server: serverType;
 
-  constructor() {
-    this.server = createServer(express_server.app);
-    this.io = new Server(this.server, {
-      cors: {
-        origin: "*",
-        methods: ["GET", "POST"],
-      },
-    });
-  }
+	constructor() {
+		this.server = createServer(express_server.app);
+		this.io = new Server(this.server, {
+			cors: {
+				origin: '*',
+				methods: ['GET', 'POST'],
+			},
+		});
+	}
 
-  start() {
-    this.io.use(identify);
+	start() {
+		this.io.on('connection', async socket => {
+			socket.on('getData', async callback => {
+				try {
+					await new Promise<void>((resolve, reject) => {
+						identify(socket, err => {
+							if (err) {
+								reject(err);
+							} else {
+								resolve();
+							}
+						});
+					});
 
-    this.io.on("connection", async (socket) => {
-      console.log(`[🙌] Socket client connected: ${socket.data.user.username}`);
+					console.log(`[🙌] Authenticated user: ${socket.data.user.username}`);
 
-      socket.on("getData", () => {
-        Promise.all([getUsers(), getGroups(), getActivities()]).then(([users, groups, activities]) => {
-          socket.emit("users", users);
-          socket.emit("groups", groups);
-          socket.emit("activities", activities);
-        });
-      });
+					const [users, groups, activities] = await Promise.all([
+						getUsers(),
+						getGroups(),
+						getActivities(),
+					]);
 
-      socket.on("disconnect", () => {
-        console.log("[🙌] Socket client disconnected");
-      });
-    });
+					socket.emit('users', users);
+					socket.emit('groups', groups);
+					socket.emit('activities', activities);
 
-    this.server.listen(3001, () => {
-      console.log("[🔮] Socket server is running on port 3001");
-    });
-  }
+					if (callback) callback(null, { users, groups, activities });
+				} catch (error) {
+					  console.error('[❌] Authentication error:', error);
+					if (callback) callback(error);
+				}
+			});
+
+			socket.on('joinActivity', async (data, callback) => {
+				if (!data.usercode || !data.activitycode) return;
+
+				Promise.all([getStudentByCode(data.usercode), getActivityByCode(data.activitycode)])
+					.then(([student, activity]) => {
+						if (!student) return callback('Código de aluno inválido');
+						if (!activity) return callback('Código da atividade inválido');
+
+            if(activity.groups.find(group => group.name === student.group.name)) {
+
+              const startadate = new Date(activity.startDate);
+
+              if(startadate > new Date()) {
+                return callback('A atividade ainda não começou');
+              }
+              socket.join(activity.code);
+              socket.emit('joined', activity);
+              callback(null);
+            } else {
+              callback('O seu grupo não tem permissão para acessar a esta atividade');
+            }
+					})
+					.catch(e => {
+						if (callback) callback(e);
+					});
+			});
+
+			socket.on('disconnect', () => {
+				console.log('[🙌] Socket client disconnected');
+			});
+		});
+
+		this.server.listen(3001, () => {
+			console.log('[🔮] Socket server is running on port 3001');
+		});
+	}
 }

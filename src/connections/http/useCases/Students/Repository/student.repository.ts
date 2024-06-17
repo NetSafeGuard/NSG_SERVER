@@ -39,3 +39,18 @@ export const DeleteStudent = async (email: string) => {
         }
     })
 }
+
+export const getStudentByCode = async (code: string) => {
+    return prisma.student.findUnique({
+        where: {
+            code
+        },
+        select: {
+            group: true,
+            code: true,
+            name: true,
+            studentid: true,
+            email: true
+        }
+    })
+}

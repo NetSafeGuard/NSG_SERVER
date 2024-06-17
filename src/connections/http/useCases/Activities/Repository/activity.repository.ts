@@ -134,3 +134,21 @@ export const DeleteDomainFromActivity = async (domain_id: number) => {
         }
     });
 }
+
+export const getActivityByCode = async (code: string) => {
+    return prisma.activity.findUnique({
+        where: {
+            code
+        },
+        select: {
+            groups: true,
+            code: true,
+            title: true,
+            description: true,
+            createdAt: true,
+            startDate: true,
+            redirectUrl: true,
+            endDate: true,
+        }
+    })
+}
