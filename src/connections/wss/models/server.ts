@@ -52,7 +52,7 @@ export class SocketServer {
 
 					if (callback) callback(null, { users, groups, activities });
 				} catch (error) {
-					  console.error('[❌] Authentication error:', error);
+					console.error('[❌] Authentication error:', error);
 					if (callback) callback(error);
 				}
 			});
@@ -65,22 +65,34 @@ export class SocketServer {
 						if (!student) return callback('Código de aluno inválido');
 						if (!activity) return callback('Código da atividade inválido');
 
-            if(activity.groups.find(group => group.name === student.group.name)) {
+						if (activity.groups.find(group => group.name === student.group.name)) {
+							const start_date = new Date(activity.startDate);
+							const end_date = new Date(activity.endDate);
 
-              const startadate = new Date(activity.startDate);
+							if (start_date > new Date()) {
+								return callback('A atividade ainda não começou');
+							}
 
-              if(startadate > new Date()) {
-                return callback('A atividade ainda não começou');
-              }
-              socket.join(activity.code);
-              socket.emit('joined', activity);
-              callback(null);
-            } else {
-              callback('O seu grupo não tem permissão para acessar a esta atividade');
-            }
+							if (start_date > end_date) {
+								return callback('Essa atividade já encerrou');
+							}
+
+							socket.data.user = student;
+
+							socket.join(activity.code);
+							socket.emit('joined', activity);
+
+							console.log(`[🙌] User ${student.name} joined activity ${activity.title}`);  
+							callback(null);
+						} else {
+							callback('O seu grupo não tem permissão para acessar a esta atividade');
+						}
 					})
 					.catch(e => {
-						if (callback) callback(e);
+						if (callback)
+							callback(
+								'Ocorreu algum erro interno, caso o erro continue entre em contacto!',
+							);
 					});
 			});
 
