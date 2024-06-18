@@ -37,7 +37,6 @@ export class ExpressServer {
     this.app.use("/api/v1/account", accountsrouter);
     this.app.use("/api/v1/activities", activityrouter);
     this.app.use("/api/v1/group", groupsrouter);
-    this.app.use("/api/v1/bikelight/webhook", bikelightroute)
     this.app.use("/token/", tokenrouter);
 
     this.app.all("/*", this.notfound);
