@@ -30,8 +30,21 @@ model Activity {
   code            String @unique
   redirectUrl     String
   groups          Group[]
+  logs           Log[]
   activityDomains ActivityDomain[]
   createdAt       DateTime         @default(now())
+}
+
+model Log {
+  id         Int      @id @default(autoincrement())
+  activityId Int
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  userId     Int
+  user       Student  @relation(fields: [userId], references: [id])
+  action     String
+  info       String
+  priority   Priority
+  createdAt  DateTime @default(now())
 }
 
 model Domain {
@@ -69,6 +82,7 @@ model Student {
   code      String? @unique
   groupid   Int
   group     Group   @relation(fields: [groupid], references: [id], onDelete: Cascade)
+  logs      Log[] 
 }
 
 model Token {
@@ -81,4 +95,10 @@ enum Role {
   ADMIN
   USER
   DEV
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
 }
