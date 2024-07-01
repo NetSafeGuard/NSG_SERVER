@@ -112,10 +112,13 @@ export const toggleBlock = async (io: Server, socket: Socket, data: Data) => {
 
 const findSocketByEmail = (io: Server, email: string) => {
 	const sockets = io.sockets.sockets;
+	let socket = null;
 
-	for (const socket of sockets.values()) {
+	for (const s of sockets.values()) {
 		if (socket.data.user?.student?.email === email) {
-			return socket;
+			socket = s;
 		}
 	}
+
+	return socket
 };
