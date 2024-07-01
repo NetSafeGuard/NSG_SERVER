@@ -42,8 +42,8 @@ export const joinActivity = (socket: Socket) => async (data, callback) => {
 				console.log(`[🙌] User ${student.name} joined activity ${activity.title}`);
 
 				if (activity.blockedUsers.find(user => user.id === student.id)) {
+					console.log(1)
 					socket.emit('blocked');
-					return;
 				}
 				callback(null);
 			} else {
