@@ -4,6 +4,12 @@ import { createServer, type Server as serverType } from 'node:http';
 import * as activityC from '../controllers/Activity.controller';
 import * as dataC from '../controllers/Data.controller';
 
+export interface Data {
+	activityId: number;
+	email: string;
+	remove: boolean;
+}
+
 export class SocketServer {
 	public io: Server;
 	public server: serverType;
@@ -22,8 +28,9 @@ export class SocketServer {
 		this.io.on('connection', async socket => {
 			socket.on('getData', dataC.getData(socket));
 
+			socket.on('toggleBlock', (data: Data) => activityC.toggleBlock(this.io,socket, data));
 			socket.on('joinActivity', activityC.joinActivity(socket));
-			socket.on('BlockMe', activityC.blockActivity(socket));
+			socket.on('BlockMe', activityC.blockActivity(this.io, socket));
 			socket.on('disconnect', () => {
 				console.log('[🙌] Socket client disconnected');
 			});

@@ -46,6 +46,7 @@ export const getActivities = async () =>
 			code: true,
 			startDate: true,
 			createdAt: true,
+			blockedUsers: true,
 			activityDomains: {
 				select: {
 					domain: {
@@ -180,7 +181,7 @@ export const getActivityByCode = async (code: string) => {
 	});
 };
 
-export const blockUser = async (activity_id: number, user_id: number) => {
+export const blockUser = async (activity_id: number, email: string) => {
 	return prisma.activity.update({
 		where: {
 			id: activity_id,
@@ -188,7 +189,22 @@ export const blockUser = async (activity_id: number, user_id: number) => {
 		data: {
 			blockedUsers: {
 				connect: {
-					id: user_id,
+					email
+				},
+			},
+		},
+	});
+}
+
+export const unblockUser = async (activity_id: number, user_email: string) => {
+	return prisma.activity.update({
+		where: {
+			id: activity_id,
+		},
+		data: {
+			blockedUsers: {
+				disconnect: {
+					email: user_email,
 				},
 			},
 		},

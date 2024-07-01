@@ -1,7 +1,15 @@
-import { getStudentByCode } from "@/connections/http/useCases/Students/Repository/student.repository";
-import { CreateLog, blockUser, getActivityByCode } from "@/connections/http/useCases/Activities/Repository/activity.repository";
-import type { Socket } from "socket.io";
-import { Priority } from "@prisma/client";
+import { getStudentByCode } from '@/connections/http/useCases/Students/Repository/student.repository';
+import {
+	CreateLog,
+	blockUser,
+	getActivities,
+	getActivityByCode,
+	unblockUser,
+} from '@/connections/http/useCases/Activities/Repository/activity.repository';
+import type { Server, Socket } from 'socket.io';
+import { Priority } from '@prisma/client';
+import type { Data } from '../models/server';
+import { identify } from '../middlewares/identify.middleware';
 
 export const joinActivity = (socket: Socket) => async (data, callback) => {
 	if (!data.usercode || !data.activitycode) return;
@@ -23,16 +31,15 @@ export const joinActivity = (socket: Socket) => async (data, callback) => {
 					return callback('Essa atividade já encerrou');
 				}
 
-				if(activity.blockedUsers.find(user => user.id === student.id)) {
+				if (activity.blockedUsers.find(user => user.id === student.id)) {
 					socket.emit('blocked');
-					return
+					return;
 				}
 
 				socket.data.user = {
 					student,
-					activity
+					activity,
 				};
-
 
 				socket.join(activity.code);
 				socket.emit('joined', activity);
@@ -49,13 +56,63 @@ export const joinActivity = (socket: Socket) => async (data, callback) => {
 		});
 };
 
-export const blockActivity = (socket: Socket) => async (callback) => {
+export const blockActivity = (io: Server, socket: Socket) => async callback => {
 	if (!socket.data.user) return;
-	await blockUser(socket.data.user.activity.id, socket.data.user.student.id);
-	await CreateLog(socket.data.user.activity.id, socket.data.user.student.id, 'Bloqueado', 'Acessou a algo que não deveria', Priority.ALTA);
+	await blockUser(socket.data.user.activity.id, socket.data.user.student.email);
+	await CreateLog(
+		socket.data.user.activity.id,
+		socket.data.user.student.id,
+		'Bloqueado',
+		'Acessou a algo que não deveria',
+		Priority.ALTA,
+	);
+	getActivities().then(activities => {
+		io.emit('activities', activities);
+	});
+
 	socket.leave(socket.data.user.activity.code);
 	socket.emit('blocked');
 
 	console.log(`[🚨] User ${socket.data.user.student.name} blocked from activity`);
 	callback(null);
+};
+
+export const toggleBlock = async (io: Server, socket: Socket, data: Data) => {
+	try {
+		await new Promise<void>((resolve, reject) => {
+			identify(socket, err => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve();
+				}
+			});
+		});
+		const s = findSocketByEmail(io, data.email);
+		if (data.remove) {
+			unblockUser(data.activityId, data.email).then(() => {
+				getActivities().then(activities => {
+					io.emit('activities', activities);
+
+					s.emit('unblocked', data.email);
+				});
+			});
+		} else {
+			blockUser(data.activityId, data.email).then(() => {
+				getActivities().then(activities => {
+					io.emit('activities', activities);
+					
+					s.emit('blocked', data.email);
+				});
+			});
+		}
+	} catch (error) {
+		console.error('[❌] Authentication error:', error);
+	}
+};
+
+const findSocketByEmail = (io: Server, email: string) => {
+	const sockets = io.sockets.sockets;
+	const socket = Object.values(sockets).find(socket => socket.data.user.student.email === email);
+	return socket;
 };

@@ -4,7 +4,6 @@ import type { Socket } from 'socket.io';
 
 export const identify = (socket: Socket, next: (err?: Error) => void) => {
 	const token = socket.handshake.query.token;
-
 	if (token) {
 		jwt.verify(token as string, process.env.JWT_SECRET || 'SCR_2023', async (err, user) => {
 			if (err) return next(new Error('Authentication error'));
