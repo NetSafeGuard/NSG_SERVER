@@ -115,6 +115,7 @@ const findSocketByEmail = (io: Server, email: string) => {
 	let socket = null;
 
 	for (const s of sockets.values()) {
+		console.log(s.data)
 		if (s.data.user?.student?.email === email) {
 			socket = s;
 		}
