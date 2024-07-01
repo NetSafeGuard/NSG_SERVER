@@ -93,16 +93,15 @@ export const toggleBlock = async (io: Server, socket: Socket, data: Data) => {
 			unblockUser(data.activityId, data.email).then(() => {
 				getActivities().then(activities => {
 					io.emit('activities', activities);
-
-					s.emit('unblocked', data.email);
+					if(s) s.emit('unblocked', data.email);
 				});
 			});
 		} else {
 			blockUser(data.activityId, data.email).then(() => {
 				getActivities().then(activities => {
 					io.emit('activities', activities);
-					
-					s.emit('blocked', data.email);
+
+					if(s) s.emit('blocked', data.email);
 				});
 			});
 		}
@@ -113,6 +112,10 @@ export const toggleBlock = async (io: Server, socket: Socket, data: Data) => {
 
 const findSocketByEmail = (io: Server, email: string) => {
 	const sockets = io.sockets.sockets;
-	const socket = Object.values(sockets).find(socket => socket.data.user.student.email === email);
-	return socket;
+
+	for (const socket of sockets.values()) {
+		if (socket.data.user?.student?.email === email) {
+			return socket;
+		}
+	}
 };
