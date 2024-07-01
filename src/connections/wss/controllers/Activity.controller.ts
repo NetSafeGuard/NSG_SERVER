@@ -42,7 +42,6 @@ export const joinActivity = (socket: Socket) => async (data, callback) => {
 				console.log(`[🙌] User ${student.name} joined activity ${activity.title}`);
 
 				if (activity.blockedUsers.find(user => user.id === student.id)) {
-					console.log(1)
 					socket.emit('blocked');
 				}
 				callback(null);
@@ -113,9 +112,7 @@ export const toggleBlock = async (io: Server, socket: Socket, data: Data) => {
 const findSocketByEmail = (io: Server, email: string) => {
 	const sockets = io.sockets.sockets;
 	let socket = null;
-
 	for (const s of sockets.values()) {
-		console.log(s.data);
 		if (s.data.user?.student?.email === email) {
 			socket = s;
 		}
