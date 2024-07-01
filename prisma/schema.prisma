@@ -31,6 +31,7 @@ model Activity {
   redirectUrl     String
   groups          Group[]
   logs           Log[]
+  blockedUsers    Student[]
   activityDomains ActivityDomain[]
   createdAt       DateTime         @default(now())
 }
@@ -83,6 +84,7 @@ model Student {
   groupid   Int
   group     Group   @relation(fields: [groupid], references: [id], onDelete: Cascade)
   logs      Log[] 
+  activities Activity[]
 }
 
 model Token {
@@ -98,7 +100,7 @@ enum Role {
 }
 
 enum Priority {
-  LOW
-  MEDIUM
-  HIGH
+  BAIXA
+  MEDIA
+  ALTA
 }
