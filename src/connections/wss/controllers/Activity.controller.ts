@@ -31,11 +31,6 @@ export const joinActivity = (socket: Socket) => async (data, callback) => {
 					return callback('Essa atividade já encerrou');
 				}
 
-				if (activity.blockedUsers.find(user => user.id === student.id)) {
-					socket.emit('blocked');
-					return;
-				}
-
 				socket.data.user = {
 					student,
 					activity,
@@ -45,6 +40,11 @@ export const joinActivity = (socket: Socket) => async (data, callback) => {
 				socket.emit('joined', activity);
 
 				console.log(`[🙌] User ${student.name} joined activity ${activity.title}`);
+
+				if (activity.blockedUsers.find(user => user.id === student.id)) {
+					socket.emit('blocked');
+					return;
+				}
 				callback(null);
 			} else {
 				callback('O seu grupo não tem permissão para acessar a esta atividade');
@@ -93,7 +93,7 @@ export const toggleBlock = async (io: Server, socket: Socket, data: Data) => {
 			unblockUser(data.activityId, data.email).then(() => {
 				getActivities().then(activities => {
 					io.emit('activities', activities);
-					if(s) s.emit('unblocked', data.email);
+					if (s) s.emit('unblocked', data.email);
 				});
 			});
 		} else {
@@ -101,7 +101,7 @@ export const toggleBlock = async (io: Server, socket: Socket, data: Data) => {
 				getActivities().then(activities => {
 					io.emit('activities', activities);
 
-					if(s) s.emit('blocked', data.email);
+					if (s) s.emit('blocked', data.email);
 				});
 			});
 		}
@@ -115,11 +115,11 @@ const findSocketByEmail = (io: Server, email: string) => {
 	let socket = null;
 
 	for (const s of sockets.values()) {
-		console.log(s.data)
+		console.log(s.data);
 		if (s.data.user?.student?.email === email) {
 			socket = s;
 		}
 	}
 
-	return socket
+	return socket;
 };
