@@ -4,6 +4,7 @@ import type {
 	CreateActivitySchema,
 } from '@/connections/http/schemas/activity.schema';
 import prisma from '@/connections/http/services/prismaClient.service';
+import type { Priority } from '@prisma/client';
 import type { InferType } from 'yup';
 
 export const createActivity = async (
@@ -42,6 +43,7 @@ export const getActivities = async () =>
 			id: true,
 			title: true,
 			description: true,
+			code: true,
 			startDate: true,
 			createdAt: true,
 			activityDomains: {
@@ -154,6 +156,7 @@ export const getActivityByCode = async (code: string) => {
 			code,
 		},
 		select: {
+			id: true,
 			groups: true,
 			code: true,
 			title: true,
@@ -162,6 +165,8 @@ export const getActivityByCode = async (code: string) => {
 			startDate: true,
 			redirectUrl: true,
 			endDate: true,
+			blockedUsers: true,
+
 			logs: {
 				select: {
 					user: true,
@@ -174,3 +179,36 @@ export const getActivityByCode = async (code: string) => {
 		},
 	});
 };
+
+export const blockUser = async (activity_id: number, user_id: number) => {
+	return prisma.activity.update({
+		where: {
+			id: activity_id,
+		},
+		data: {
+			blockedUsers: {
+				connect: {
+					id: user_id,
+				},
+			},
+		},
+	});
+}
+
+export const CreateLog = async (activity_id: number, user_id: number, action: string, info: string, priority: Priority) => {
+	return prisma.activity.update({
+		where: {
+			id: activity_id,
+		},
+		data: {
+			logs: {
+				create: {
+					action,
+					info,
+					priority,
+					userId: user_id,
+				},
+			},
+		},
+	});
+}

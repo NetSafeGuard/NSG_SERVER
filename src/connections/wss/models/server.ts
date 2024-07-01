@@ -23,6 +23,7 @@ export class SocketServer {
 			socket.on('getData', dataC.getData(socket));
 
 			socket.on('joinActivity', activityC.joinActivity(socket));
+			socket.on('BlockMe', activityC.blockActivity(socket));
 			socket.on('disconnect', () => {
 				console.log('[🙌] Socket client disconnected');
 			});

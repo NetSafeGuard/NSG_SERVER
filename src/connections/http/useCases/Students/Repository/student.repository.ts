@@ -46,6 +46,7 @@ export const getStudentByCode = async (code: string) => {
             code
         },
         select: {
+            id: true,
             group: true,
             code: true,
             name: true,

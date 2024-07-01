@@ -1,6 +1,7 @@
 import { getStudentByCode } from "@/connections/http/useCases/Students/Repository/student.repository";
-import { getActivityByCode } from "@/connections/http/useCases/Activities/Repository/activity.repository";
+import { CreateLog, blockUser, getActivityByCode } from "@/connections/http/useCases/Activities/Repository/activity.repository";
 import type { Socket } from "socket.io";
+import { Priority } from "@prisma/client";
 
 export const joinActivity = (socket: Socket) => async (data, callback) => {
 	if (!data.usercode || !data.activitycode) return;
@@ -22,7 +23,16 @@ export const joinActivity = (socket: Socket) => async (data, callback) => {
 					return callback('Essa atividade já encerrou');
 				}
 
-				socket.data.user = student;
+				if(activity.blockedUsers.find(user => user.id === student.id)) {
+					socket.emit('blocked');
+					return
+				}
+
+				socket.data.user = {
+					student,
+					activity
+				};
+
 
 				socket.join(activity.code);
 				socket.emit('joined', activity);
@@ -37,4 +47,15 @@ export const joinActivity = (socket: Socket) => async (data, callback) => {
 			if (callback)
 				callback('Ocorreu algum erro interno, caso o erro continue entre em contacto!');
 		});
+};
+
+export const blockActivity = (socket: Socket) => async (callback) => {
+	if (!socket.data.user) return;
+	await blockUser(socket.data.user.activity.id, socket.data.user.student.id);
+	await CreateLog(socket.data.user.activity.id, socket.data.user.student.id, 'Bloqueado', 'Acessou a algo que não deveria', Priority.ALTA);
+	socket.leave(socket.data.user.activity.code);
+	socket.emit('blocked');
+
+	console.log(`[🚨] User ${socket.data.user.student.name} blocked from activity`);
+	callback(null);
 };
