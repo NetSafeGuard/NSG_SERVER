@@ -57,6 +57,13 @@ export const joinActivity = (socket: Socket) => async (data, callback) => {
 
 export const blockActivity = (io: Server, socket: Socket) => async callback => {
 	if (!socket.data.user) return;
+
+	const activity = await getActivityByCode(socket.data.user.activity.code);
+
+	if (!activity) return;
+
+	if (activity.blockedUsers.find(user => user.id === socket.data.user.student.id)) return;
+
 	await blockUser(socket.data.user.activity.id, socket.data.user.student.email);
 	await CreateLog(
 		socket.data.user.activity.id,
@@ -69,7 +76,6 @@ export const blockActivity = (io: Server, socket: Socket) => async callback => {
 		io.emit('activities', activities);
 	});
 
-	socket.leave(socket.data.user.activity.code);
 	socket.emit('blocked');
 
 	console.log(`[🚨] User ${socket.data.user.student.name} blocked from activity`);
