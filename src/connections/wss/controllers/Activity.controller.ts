@@ -69,7 +69,7 @@ export const blockActivity = (io: Server, socket: Socket) => async callback => {
 		socket.data.user.activity.id,
 		socket.data.user.student.id,
 		'Bloqueado',
-		'Acessou a algo que não deveria',
+		'Acedeu a um domínio não listado',
 		Priority.ALTA,
 	);
 	getActivities().then(activities => {
